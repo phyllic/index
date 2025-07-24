@@ -28,6 +28,7 @@
         - Spinning TIB Logo (Goal: Attraction/Branding): Re-added the spinning "$TIB" logo with a new "meme-style" jiggle animation and vibrant colors to reinforce branding and add visual interest.
         - Ape In Profit Calculator (Goal: Engage/Persuade): A new interactive calculator for hypothetical investment returns, directly appealing to the "moon" narrative.
         - Mock Price Chart (Goal: Inform/Persuade): A new Chart.js line chart visualizing a "to the moon" price trajectory, reinforcing bullish sentiment.
+        - Community Check-in (Goal: Engage/Community): A new section with a counter and button allowing users to "check in," now with a one-click-per-user restriction using local storage.
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
@@ -357,6 +358,22 @@
             </div>
         </div>
         <!-- End Spinning TIB Logo Coin -->
+
+        <!-- New Check-In Section -->
+        <section id="check-in-section" class="py-10" style="background-color: #0A0A1A;">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <div class="card p-8 -rotate-1" style="background-color: #1A1A33; border: 4px dashed #FFD700;">
+                    <h3 class="text-2xl font-bold text-E0FFFF mb-4">TibCoin Army Check-In! 🫡</h3>
+                    <p class="text-lg text-E0E0E0 mb-4">See how many degens are ready for the moon mission!</p>
+                    <div id="checked-in-count" class="font-bold text-5xl text-FF69B4 mb-6 text-shadow-lg" style="text-shadow: 0 0 10px rgba(255,105,180,0.8);">0</div>
+                    <button id="check-in-btn" class="llm-button">
+                        <span>CHECK IN!</span>
+                    </button>
+                    <p id="check-in-message" class="text-sm text-green-400 mt-2 hidden">Checked in! WAGMI!</p>
+                </div>
+            </div>
+        </section>
+        <!-- End New Check-In Section -->
 
         <div class="section-divider"></div>
 
@@ -1097,10 +1114,47 @@
             }
         });
 
+        // Check-in Counter Logic
+        const checkInCountEl = document.getElementById('checked-in-count');
+        const checkInBtn = document.getElementById('check-in-btn');
+        const checkInMessageEl = document.getElementById('check-in-message');
+        let totalCheckedInUsers = parseInt(localStorage.getItem('tibcoinCheckedInUsers') || '0');
+        const hasCheckedIn = localStorage.getItem('tibcoinHasCheckedIn') === 'true';
+
+        function updateCheckInDisplay() {
+            checkInCountEl.textContent = totalCheckedInUsers.toLocaleString();
+            if (hasCheckedIn) {
+                checkInBtn.disabled = true;
+                checkInBtn.textContent = "ALREADY CHECKED IN!";
+                checkInBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                checkInMessageEl.textContent = "You've already checked in, degen! Welcome aboard!";
+                checkInMessageEl.classList.remove('hidden');
+            }
+        }
+
+        checkInBtn.addEventListener('click', () => {
+            if (!hasCheckedIn) {
+                totalCheckedInUsers++;
+                localStorage.setItem('tibcoinCheckedInUsers', totalCheckedInUsers);
+                localStorage.setItem('tibcoinHasCheckedIn', 'true');
+                updateCheckInDisplay();
+                checkInBtn.disabled = true;
+                checkInBtn.textContent = "ALREADY CHECKED IN!";
+                checkInBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                checkInMessageEl.textContent = "Checked in! WAGMI!";
+                checkInMessageEl.classList.remove('hidden');
+                setTimeout(() => {
+                    checkInMessageEl.classList.add('hidden');
+                }, 2000); // Hide message after 2 seconds
+            }
+        });
+
+
         window.onload = () => {
             createChart();
             createPriceChart(); // Initialize the new price chart
             showTab('transactions'); /* Initialize with transactions tab active */
+            updateCheckInDisplay(); // Display initial check-in count and check status
         };
 
     </script>
