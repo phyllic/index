@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
     <!-- Chosen Palette: Meme Mania (Vibrant Yellow, Hot Pink, Cyan, Purple Accents) -->
-    <!-- Application Structure Plan: The SPA is designed with a thematic, non-linear flow to maximize understanding. It starts with a high-level "Problem vs. Solution" to frame the context. The core is the "How It Works" section, using tabbed navigation to break down complex topics (Transactions, Proof-of-Work, Network) into digestible, visual steps. The highlight is the "Security Simulator," which turns the abstract mathematical formula from the paper into a tangible, interactive chart, allowing users to directly experience the core security principle. This structure was chosen over a linear chapter-by-chapter approach to be more engaging and to prioritize the understanding of key concepts through interaction rather than passive reading. The top navigation bar has been removed, making the page a continuous scroll experience, emphasizing the "single page" aspect. -->
+    <!-- Application Structure Plan: The SPA is designed with a thematic, non-linear flow to maximize understanding. It starts with a high-level "Problem vs. Solution" to frame the context. The core is the "How It Works" section, using tabbed navigation to break down complex topics (Transactions, Proof-of-Work, Network) into digestible, visual steps. The highlight is the "Security Simulator," which turns the abstract mathematical formula from the paper into a tangible, interactive chart, allowing users to directly experience the core security principle. This structure was chosen over a linear chapter-by-chapter approach to be more engaging and to prioritize the understanding of key concepts through interaction rather than passive reading. The top navigation bar has been removed, making the page a continuous scroll experience, emphasizing the "single page" aspect. New sections like "Why TibCoin?", "Roadmap," and "Community" have been added to provide a more comprehensive and "legit" feel, while maintaining the meme aesthetic. A new section "Too Late for Bitcoin? What About TibCoin?!" has been added to address a common crypto investor question and position TibCoin as the next opportunity. The "Fail Launch" countdown has been moved to a prominent position directly after the hero section for immediate visibility. -->
     <!-- Visualization & Content Choices: 
         - Problem/Solution (Goal: Compare): A two-column layout using HTML/Tailwind to starkly contrast the old and new paradigms, now with more vibrant card styling.
         - Transaction Chain (Goal: Organize): A visual flow diagram using styled HTML divs and arrows to represent the chain of digital signatures, with playful colors.
@@ -18,8 +18,14 @@
         - Network Flow (Goal: Relationships): A simplified visual representation of nodes broadcasting transactions, built with HTML/CSS, maintaining clarity.
         - Security Simulation (Goal: Inform/Compare): An interactive line chart (Chart.js) where users manipulate an input slider (Attacker's CPU Power) to see the probability of an attack change dynamically. The chart colors are updated to match the new vibrant palette. Justification: This is the most effective way to demonstrate the exponential security of the blockchain.
         - Key Features (Goal: Inform): A card-based grid layout (HTML/Tailwind) to present secondary concepts, now with a slightly tilted and bolder border for a meme aesthetic.
-        - Token Section (Goal: Inform): Direct link to the TibCoin token information, styled to fit the new theme. This section now includes specific meme coin characteristics: anonymity, no team allocation, no presale, and a "fail launch" countdown to July 31st.
+        - Token Section (Goal: Inform): Direct link to the TibCoin token information, styled to fit the new theme. This section now includes specific meme coin characteristics: anonymity, no team allocation, no presale.
         - Meme Tweet Generator (Goal: Engage/Create): A new interactive section powered by the Gemini API, allowing users to generate meme-style tweets related to TibCoin. This uses LLM text generation to create dynamic, fun content.
+        - Why TibCoin? (Goal: Persuade/Inform): A dedicated section to highlight the unique selling points, styled with meme flair.
+        - Roadmap (Goal: Inform/Trust): A placeholder for future development plans, essential for project legitimacy.
+        - Community (Goal: Engage/Trust): A placeholder for community engagement, vital for meme coins, now updated with specific Twitter link.
+        - Too Late for Bitcoin? (Goal: Persuade/Inform): A new section comparing Bitcoin's current status with TibCoin's potential, framed in a meme-friendly, opportunity-focused way.
+        - Fail Launch Countdown (Goal: Engage/Inform): Moved to the top of the page for immediate attention, emphasizing the unique launch strategy.
+        - Spinning TIB Logo (Goal: Attraction/Branding): Re-added the spinning "$TIB" logo with a new "meme-style" jiggle animation and vibrant colors to reinforce branding and add visual interest.
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
@@ -27,6 +33,13 @@
             font-family: 'Comic Neue', cursive;
             background-color: #FFFBEB; /* Light yellow for meme vibe */
             color: #2c3e50;
+            background-image: radial-gradient(circle at 100% 150%, #FFD700 0%, transparent 20%),
+                              radial-gradient(circle at 0% 150%, #FF69B4 0%, transparent 20%),
+                              radial-gradient(circle at 70% 0%, #00FFFF 0%, transparent 20%),
+                              radial-gradient(circle at 20% 0%, #9333ea 0%, transparent 20%);
+            background-size: 800px 800px;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
         h1, h2, h3, h4 {
             font-family: 'Bebas Neue', sans-serif;
@@ -149,13 +162,23 @@
             background: linear-gradient(135deg, #FFD700 0%, #FF69B4 100%); /* Gold to Hot Pink */
             color: white; /* Ensure text is visible */
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3); /* Text shadow for pop */
+            overflow: hidden; /* To contain the spinning coin */
         }
         .hero-section h1 {
             color: #4B0082; /* Deep purple for title */
             text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+            position: relative;
+            display: inline-block; /* For spinning coin positioning */
         }
-        .hero-section p {
-            color: #f0f0f0;
+        .spinning-coin {
+            display: inline-block;
+            animation: spin 2s linear infinite;
+            font-size: 0.8em; /* Slightly smaller than text */
+            margin-left: 0.5em;
+        }
+        @keyframes spin {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
         }
         .btn-primary {
             background-color: #00FFFF; /* Cyan button */
@@ -237,6 +260,46 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        .section-divider {
+            height: 8px;
+            background: linear-gradient(90deg, #FF69B4 0%, #00FFFF 50%, #FFD700 100%);
+            border-radius: 4px;
+            margin: 4rem auto;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .tib-coin-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 8rem; /* Large size */
+            display: inline-block;
+            margin: 2rem auto; /* Center it */
+            padding: 1rem;
+            /* New vibrant gradient for meme style */
+            background: linear-gradient(45deg, #FF00FF, #00FFFF, #FFFF00); /* Magenta, Cyan, Yellow */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            border-radius: 50%; /* Make it round */
+            width: 200px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Bolder, more meme-like border */
+            border: 10px solid #FF69B4; /* Hot Pink */
+            outline: 5px solid #4B0082; /* Deep Purple outline */
+            box-shadow: 0 0 30px #FF00FF, 0 0 60px #00FFFF; /* Stronger neon glow */
+            /* Glitchy text shadow */
+            text-shadow: 5px 5px 0px #FF69B4, -5px -5px 0px #00FFFF, 0 0 10px rgba(255,255,255,0.8);
+            animation: meme-jiggle 0.5s infinite alternate; /* New meme-style animation */
+        }
+        @keyframes meme-jiggle {
+            0% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.05) rotate(2deg); }
+            50% { transform: scale(1) rotate(-2deg); }
+            75% { transform: scale(1.05) rotate(2deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -245,10 +308,10 @@
         <section id="intro" class="py-20 md:py-32 hero-section">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h1 class="text-4xl md:text-6xl font-bold tracking-tight">
-                    TibCoin: A Peer-to-Peer Electronic Cash System
+                    TibCoin: A Peer-to-Peer Electronic Cash System <span class="spinning-coin">🪙</span>
                 </h1>
                 <p class="mt-6 max-w-3xl mx-auto text-lg md:text-xl">
-                    Get ready for the future of digital cash! This interactive journey unpacks the TibCoin White Paper – where memes meet money, creating a truly decentralized payment system.
+                    Get ready for the future of digital cash! This interactive journey unpacks the TibCoin White Paper – where memes meet money, creating a truly decentralized payment system. Much wow, very crypto!
                 </p>
                 <div class="mt-10">
                     <a href="#problem" class="btn-primary">
@@ -258,7 +321,85 @@
             </div>
         </section>
 
-        <section id="problem" class="py-20">
+        <!-- Moved Countdown Timer Section -->
+        <section id="top-countdown" class="py-10 bg-yellow-50">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <div class="card p-8 rotate-1" style="background-color: #FFFAF0; border: 4px dashed #FF69B4;">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">"Fail Launch" Countdown! Don't Miss the Chaos!</h3>
+                    <div id="countdown-timer">
+                        <span id="days">00</span> Days
+                        <span id="hours">00</span> Hours
+                        <span id="minutes">00</span> Minutes
+                        <span id="seconds">00</span> Seconds
+                    </div>
+                    <p id="countdown-message" class="hidden">It's here! The fail launch is complete! Much wow, very launch!</p>
+                </div>
+            </div>
+        </section>
+        <!-- End Moved Countdown Timer Section -->
+
+        <!-- Spinning TIB Logo Coin -->
+        <div class="flex justify-center items-center py-10">
+            <div class="tib-coin-logo">
+                $TIB
+            </div>
+        </div>
+        <!-- End Spinning TIB Logo Coin -->
+
+        <div class="section-divider"></div>
+
+        <section id="why-tibcoin" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Why TibCoin? Because We're Different! ✨</h2>
+                    <p class="mt-4 text-lg text-gray-600">Not just another coin, TibCoin is built on pure decentralized vibes and community power!</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    <div class="card p-6 rotate-2">
+                        <h3 class="text-xl font-bold text-purple-600 mb-2">Anon Devs, Much Trust!</h3>
+                        <p class="text-gray-600">Our team is so anonymous, we're basically ninjas. This means no central points of failure, just pure, unadulterated decentralization!</p>
+                    </div>
+                    <div class="card p-6 -rotate-2">
+                        <h3 class="text-xl font-bold text-cyan-600 mb-2">Fair Launch, No Whales!</h3>
+                        <p class="text-600">No presales, no team allocations, no sneaky early birds. Everyone gets to ape in at the same time. This is the way!</p>
+                    </p>
+                    </div>
+                    <div class="card p-6 rotate-2">
+                        <h3 class="text-xl font-bold text-pink-600 mb-2">Community Driven, WAGMI!</h3>
+                        <p class="text-600">TibCoin is powered by YOU, the degens and diamond hands! Your memes, your energy, your future. We Are All Gonna Make It!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section id="too-late" class="py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Too Late for Bitcoin? What About TibCoin?! 🤯</h2>
+                    <p class="mt-4 text-lg text-gray-600">Feeling like you missed the BTC rocket? Don't FOMO, TibCoin is here for the next moonshot!</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="card p-8 rotate-1">
+                        <h3 class="text-2xl font-bold text-gray-700">Bitcoin: The OG, But... 👴</h3>
+                        <p class="mt-4 text-gray-600">
+                            Bitcoin's cool, sure. But it's already done its 10,000x. The early days are long gone. Transaction fees? Sometimes higher than your grandma's grocery bill. And let's be real, are you really gonna buy a whole BTC now? NGMI if you wait for another miracle.
+                        </p>
+                    </div>
+                    <div class="card p-8 -rotate-1">
+                        <h3 class="text-2xl font-bold text-green-600">TibCoin: The Fresh New Meme! 🌱</h3>
+                        <p class="mt-4 text-gray-600">
+                            TibCoin is the fresh start, the clean slate, the diamond in the rough! Low market cap, high meme potential. This is where the real degens find their alpha. Get in early, stack those $TIBs, and prepare for the ride of your life. Wen Lambo? Soon, fren, soon!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section id="problem" class="py-20 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">The Big Problem & Our Epic Solution!</h2>
@@ -280,6 +421,8 @@
                 </div>
             </div>
         </section>
+
+        <div class="section-divider"></div>
 
         <section id="how-it-works" class="py-20 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -359,6 +502,8 @@
             </div>
         </section>
 
+        <div class="section-divider"></div>
+
         <section id="security" class="py-20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
@@ -385,6 +530,8 @@
             </div>
         </section>
 
+        <div class="section-divider"></div>
+
         <section id="features" class="py-20 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
@@ -408,6 +555,8 @@
             </div>
         </section>
 
+        <div class="section-divider"></div>
+
         <!-- TibCoin Token Section -->
         <section id="token-tib" class="py-20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -424,22 +573,50 @@
                         <br>
                         🚀 No Presale: Fair launch for everyone! Get ready to ape in!
                     </p>
-                    <div id="countdown-container" class="mt-8">
-                        <h3 class="text-2xl font-bold text-gray-900 mb-4">"Fail Launch" Countdown!</h3>
-                        <div id="countdown-timer">
-                            <span id="days">00</span> Days
-                            <span id="hours">00</span> Hours
-                            <span id="minutes">00</span> Minutes
-                            <span id="seconds">00</span> Seconds
-                        </div>
-                        <p id="countdown-message" class="hidden">It's here! The fail launch is complete! Much wow, very launch!</p>
-                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- New LLM-powered Meme Tweet Generator Section -->
-        <section id="meme-generator" class="py-20">
+        <div class="section-divider"></div>
+
+        <!-- Roadmap Section -->
+        <section id="roadmap" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Roadmap: Where We're Headed (To the Moon, Obviously!) 🌕</h2>
+                    <p class="mt-4 text-lg text-gray-600">Our journey is just beginning, but here's a sneak peek at the epic path ahead for TibCoin!</p>
+                </div>
+                <div class="card p-8 text-center text-gray-500 rotate-1">
+                    <p class="mb-4">Phase 1: Launch & Meme Domination (Current)</p>
+                    <p class="mb-4">Phase 2: Community Building & Degen Cultivation</p>
+                    <p class="mb-4">Phase 3: Utility Exploration (Maybe a TibCoin game? Who knows!)</p>
+                    <p class="font-bold text-gray-700">Disclaimer: Roadmap subject to change based on meme trends and community vibes. Not financial advice, just pure speculation!</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- Community Section -->
+        <section id="community" class="py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Join the TibCoin Army! WAGMI! 💪</h2>
+                    <p class="mt-4 text-lg text-gray-600">Our community is the heart and soul of TibCoin. Don't be a paper hand, join the diamond hands!</p>
+                </div>
+                <div class="card p-8 text-center text-gray-500 -rotate-1">
+                    <p class="mb-4">Connect with fellow degens and enthusiasts!</p>
+                    <p class="mb-4 font-bold text-gray-700">Find us on:</p>
+                    <p class="mb-2">🐦 Twitter (X): <a href="https://twitter.com/tibcoin_" target="_blank" class="text-blue-500 hover:underline">@tibcoin_</a></p>
+                    <p class="mt-4">Let's spread the meme, one TibCoin at a time!</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- LLM-powered Meme Tweet Generator Section -->
+        <section id="meme-generator" class="py-20 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">TibCoin Meme Lab ✨</h2>
@@ -633,7 +810,8 @@
         attackerPowerSlider.addEventListener('input', updateChart);
         
         // Countdown Timer Logic
-        const launchDate = new Date('July 31, 2025 00:00:00 GMT+0700').getTime(); // Set to July 31, 2025, Bangkok time
+        // Current date is July 24, 2025. 20 days from today is August 13, 2025.
+        const launchDate = new Date('August 13, 2025 00:00:00 GMT+0700').getTime();
         const daysEl = document.getElementById('days');
         const hoursEl = document.getElementById('hours');
         const minutesEl = document.getElementById('minutes');
