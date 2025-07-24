@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
     <!-- Chosen Palette: Space Neon (Deep Purple, Electric Blue, Cyan, Hot Pink, Cosmic Gold Accents) -->
-    <!-- Application Structure Plan: The SPA is designed with a thematic, non-linear flow to maximize understanding. It starts with a high-level "Problem vs. Solution" to frame the context. The core is the "How It Works" section, using tabbed navigation to break down complex topics (Transactions, Proof-of-Work, Network) into digestible, visual steps. The highlight is the "Security Simulator," which turns the abstract mathematical formula from the paper into a tangible, interactive chart, allowing users to directly experience the core security principle. This structure was chosen over a linear chapter-by-chapter approach to be more engaging and to prioritize the understanding of key concepts through interaction rather than passive reading. The top navigation bar has been removed, making the page a continuous scroll experience, emphasizing the "single page" aspect. New sections like "Why TibCoin?", "Roadmap," and "Community" have been added to provide a more comprehensive and "legit" feel, while maintaining the meme aesthetic. A new section "Too Late for Bitcoin? What About TibCoin?!" has been added to address a common crypto investor question and position TibCoin as the next opportunity. The "Fail Launch" countdown has been moved to a prominent position directly after the hero section for immediate visibility. -->
+    <!-- Application Structure Plan: The SPA is designed with a thematic, non-linear flow to maximize understanding. It starts with a high-level "Problem vs. Solution" to frame the context. The core is the "How It Works" section, using tabbed navigation to break down complex topics (Transactions, Proof-of-Work, Network) into digestible, visual steps. The highlight is the "Security Simulator," which turns the abstract mathematical formula from the paper into a tangible, interactive chart, allowing users to directly experience the core security principle. This structure was chosen over a linear chapter-by-chapter approach to be more engaging and to prioritize the understanding of key concepts through interaction rather than passive reading. The top navigation bar has been removed, making the page a continuous scroll experience, emphasizing the "single page" aspect. New sections like "Why TibCoin?", "Roadmap," and "Community" have been added to provide a more comprehensive and "legit" feel, while maintaining the meme aesthetic. A new section "Too Late for Bitcoin? What About TibCoin?!" has been added to address a common crypto investor question and position TibCoin as the next opportunity. The "Fair Launch" countdown has been moved to a prominent position directly after the hero section for immediate visibility. -->
     <!-- Visualization & Content Choices: 
         - Problem/Solution (Goal: Compare): A two-column layout using HTML/Tailwind to starkly contrast the old and new paradigms, now with more vibrant card styling.
         - Transaction Chain (Goal: Organize): A visual flow diagram using styled HTML divs and arrows to represent the chain of digital signatures, with playful colors.
@@ -24,7 +24,7 @@
         - Roadmap (Goal: Inform/Trust): A placeholder for future development plans, essential for project legitimacy.
         - Community (Goal: Engage/Trust): A placeholder for community engagement, vital for meme coins, now updated with specific Twitter link.
         - Too Late for Bitcoin? (Goal: Persuade/Inform): A new section comparing Bitcoin's current status with TibCoin's potential, framed in a meme-friendly, opportunity-focused way.
-        - Fail Launch Countdown (Goal: Engage/Inform): Moved to the top of the page for immediate attention, emphasizing the unique launch strategy.
+        - Fair Launch Countdown (Goal: Engage/Inform): Moved to the top of the page for immediate attention, emphasizing the unique launch strategy.
         - Spinning TIB Logo (Goal: Attraction/Branding): Re-added the spinning "$TIB" logo with a new "meme-style" jiggle animation and vibrant colors to reinforce branding and add visual interest.
         - Ape In Profit Calculator (Goal: Engage/Persuade): A new interactive calculator for hypothetical investment returns, directly appealing to the "moon" narrative.
         - Mock Price Chart (Goal: Inform/Persuade): A new Chart.js line chart visualizing a "to the moon" price trajectory, reinforcing bullish sentiment.
@@ -337,14 +337,14 @@
         <section id="top-countdown" class="py-10" style="background-color: #1A1A33;">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <div class="card p-8 rotate-1" style="background-color: #0A0A1A; border: 4px dashed #00FFFF;">
-                    <h3 class="text-2xl font-bold text-E0FFFF mb-4">"Fail Launch" Countdown! Don't Miss the Chaos!</h3>
+                    <h3 class="text-2xl font-bold text-E0FFFF mb-4">"Fair Launch" Countdown! Don't Miss the Chaos!</h3>
                     <div id="countdown-timer">
                         <span id="days">00</span> Days
                         <span id="hours">00</span> Hours
                         <span id="minutes">00</span> Minutes
                         <span id="seconds">00</span> Seconds
                     </div>
-                    <p id="countdown-message" class="hidden">It's here! The fail launch is complete! Much wow, very launch!</p>
+                    <p id="countdown-message" class="hidden">It's here! The fair launch is complete! Much wow, very launch!</p>
                 </div>
             </div>
         </section>
@@ -573,15 +573,15 @@
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div class="card p-6 rotate-1">
-                        <h3 class="text-xl font-bold text-purple-400">Incentive: Get Rich (or Mine Trying)!</h3>
+                        <h3 class="text-xl font-bold">Incentive: Get Rich (or Mine Trying)!</h3>
                         <p class="mt-2 text-E0E0E0">Miners get sweet TibCoins and transaction fees for their hard work. It's like a treasure hunt, but everyone wins (if they're honest)!</p>
                     </div>
                     <div class="card p-6 -rotate-1">
-                        <h3 class="text-xl font-bold text-cyan-400">Privacy: Who's That Masked TibCoiner?</h3>
+                        <h3 class="text-xl font-bold">Privacy: Who's That Masked TibCoiner?</h3>
                         <p class="mt-2 text-E0E0E0">Transactions are public, but your identity stays a secret! It's like a digital masquerade ball – everyone sees the dance, but not the dancers!</p>
                     </div>
                     <div class="card p-6 rotate-1">
-                        <h3 class="text-xl font-bold text-pink-400">Reclaiming Disk Space: Tidy Up Time!</h3>
+                        <h3 class="text-xl font-bold">Reclaiming Disk Space: Tidy Up Time!</h3>
                         <p class="mt-2 text-E0E0E0">Once transactions are super old and buried deep, we can magically shrink the blockchain to save space. No digital clutter here!</p>
                     </div>
                 </div>
@@ -994,7 +994,7 @@
                 clearInterval(countdownInterval);
                 countdownTimerEl.classList.add('hidden');
                 countdownMessageEl.classList.remove('hidden');
-                countdownMessageEl.textContent = "It's here! The fail launch is complete! Much wow, very launch!";
+                countdownMessageEl.textContent = "It's here! The fair launch is complete! Much wow, very launch!";
                 return;
             }
 
