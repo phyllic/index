@@ -1137,6 +1137,8 @@
                 totalCheckedInUsers++;
                 localStorage.setItem('tibcoinCheckedInUsers', totalCheckedInUsers);
                 localStorage.setItem('tibcoinHasCheckedIn', 'true');
+                console.log('localStorage - tibcoinCheckedInUsers set to:', localStorage.getItem('tibcoinCheckedInUsers')); // Debugging log
+                console.log('localStorage - tibcoinHasCheckedIn set to:', localStorage.getItem('tibcoinHasCheckedIn')); // Debugging log
                 updateCheckInDisplay();
                 checkInBtn.disabled = true;
                 checkInBtn.textContent = "ALREADY CHECKED IN!";
