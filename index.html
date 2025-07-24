@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Meme Mania (Vibrant Yellow, Hot Pink, Cyan, Purple Accents) -->
+    <!-- Chosen Palette: Space Neon (Deep Purple, Electric Blue, Cyan, Hot Pink, Cosmic Gold Accents) -->
     <!-- Application Structure Plan: The SPA is designed with a thematic, non-linear flow to maximize understanding. It starts with a high-level "Problem vs. Solution" to frame the context. The core is the "How It Works" section, using tabbed navigation to break down complex topics (Transactions, Proof-of-Work, Network) into digestible, visual steps. The highlight is the "Security Simulator," which turns the abstract mathematical formula from the paper into a tangible, interactive chart, allowing users to directly experience the core security principle. This structure was chosen over a linear chapter-by-chapter approach to be more engaging and to prioritize the understanding of key concepts through interaction rather than passive reading. The top navigation bar has been removed, making the page a continuous scroll experience, emphasizing the "single page" aspect. New sections like "Why TibCoin?", "Roadmap," and "Community" have been added to provide a more comprehensive and "legit" feel, while maintaining the meme aesthetic. A new section "Too Late for Bitcoin? What About TibCoin?!" has been added to address a common crypto investor question and position TibCoin as the next opportunity. The "Fail Launch" countdown has been moved to a prominent position directly after the hero section for immediate visibility. -->
     <!-- Visualization & Content Choices: 
         - Problem/Solution (Goal: Compare): A two-column layout using HTML/Tailwind to starkly contrast the old and new paradigms, now with more vibrant card styling.
@@ -33,19 +33,21 @@
     <style>
         body {
             font-family: 'Comic Neue', cursive;
-            background-color: #FFFBEB; /* Light yellow for meme vibe */
-            color: #2c3e50;
-            background-image: radial-gradient(circle at 100% 150%, #FFD700 0%, transparent 20%),
-                              radial-gradient(circle at 0% 150%, #FF69B4 0%, transparent 20%),
-                              radial-gradient(circle at 70% 0%, #00FFFF 0%, transparent 20%),
-                              radial-gradient(circle at 20% 0%, #9333ea 0%, transparent 20%);
+            background-color: #0A0A1A; /* Deep space background */
+            color: #E0E0E0; /* Light gray for text */
+            background-image: radial-gradient(circle at 100% 150%, #4B0082 0%, transparent 20%), /* Deep Purple Nebula */
+                              radial-gradient(circle at 0% 150%, #FF00FF 0%, transparent 20%), /* Magenta Nebula */
+                              radial-gradient(circle at 70% 0%, #00FFFF 0%, transparent 20%), /* Cyan Nebula */
+                              radial-gradient(circle at 20% 0%, #FFD700 0%, transparent 20%); /* Gold Sparkle */
             background-size: 800px 800px;
             background-repeat: no-repeat;
             background-attachment: fixed;
         }
         h1, h2, h3, h4 {
             font-family: 'Bebas Neue', sans-serif;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.08em; /* More dramatic spacing */
+            color: #E0FFFF; /* Electric Cyan for titles */
+            text-shadow: 0 0 8px rgba(0,255,255,0.6), 0 0 15px rgba(0,255,255,0.4); /* Neon glow */
         }
         .nav-link {
             transition: color 0.3s, border-bottom-color 0.3s;
@@ -67,9 +69,9 @@
             transform: translateY(10px);
             transition: opacity 0.3s ease-out, transform 0.3s ease-out;
             position: absolute;
-            background-color: white;
+            background-color: #1A1A33; /* Darker background for dropdown */
             min-width: 200px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.4);
             z-index: 1000;
             border-radius: 0.5rem;
             padding: 0.5rem 0;
@@ -77,17 +79,19 @@
             left: 0;
         }
         .dropdown-menu a {
-            color: #2c3e50;
+            color: #E0E0E0;
             padding: 0.75rem 1rem;
             text-decoration: none;
             display: block;
             transition: background-color 0.2s;
         }
         .dropdown-menu a:hover {
-            background-color: #f0f4f8;
+            background-color: #2A2A4A; /* Slightly lighter hover */
         }
         .tab-button {
             transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Bouncy transition */
+            background-color: #2A2A4A; /* Darker base for tabs */
+            color: #E0E0E0;
         }
         .tab-button.active {
             background-color: #FF69B4; /* Hot pink active */
@@ -96,16 +100,18 @@
             transform: scale(1.05);
         }
         .card {
-            background-color: white;
+            background-color: rgba(26, 26, 51, 0.8); /* Semi-transparent dark card */
             border-radius: 0.75rem;
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
             transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55), box-shadow 0.3s; /* Bouncy transition */
             border: 4px dashed #9333ea; /* Purple dashed border */
             transform: rotate(1deg); /* Slight rotation */
+            color: #E0E0E0; /* Light text on dark card */
         }
         .card:hover {
             transform: translateY(-8px) rotate(-1deg); /* More pronounced hover */
             box-shadow: 0 12px 20px -3px rgb(0 0 0 / 0.2), 0 6px 10px -4px rgb(0 0 0 / 0.15);
+            border-color: #00FFFF; /* Cyan border on hover */
         }
         .chart-container {
             position: relative;
@@ -122,12 +128,13 @@
             }
         }
         .flow-box {
-            border: 2px solid #FFD700; /* Gold border */
+            border: 2px solid #00FFFF; /* Cyan border */
             padding: 1rem;
             border-radius: 0.5rem;
             text-align: center;
-            background-color: #FFFAF0; /* Light peach */
+            background-color: #1A1A33; /* Darker background */
             min-width: 120px;
+            color: #E0E0E0;
         }
         .arrow {
             font-size: 2.5rem; /* Larger arrow */
@@ -138,8 +145,9 @@
             border: 2px solid;
             padding: 0.5rem;
             border-radius: 0.25rem;
-            background-color: white;
+            background-color: #1A1A33; /* Darker background */
             position: relative;
+            color: #E0E0E0;
         }
         .block-link {
             position: absolute;
@@ -161,16 +169,17 @@
             100% { opacity: 1; transform: scale(1.02); }
         }
         .hero-section {
-            background: linear-gradient(135deg, #FFD700 0%, #FF69B4 100%); /* Gold to Hot Pink */
+            background: linear-gradient(135deg, #4B0082 0%, #0A0A1A 100%); /* Deep purple to dark space */
             color: white; /* Ensure text is visible */
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3); /* Text shadow for pop */
+            text-shadow: 0 0 10px rgba(255,255,255,0.4); /* White glow for text */
             overflow: hidden; /* To contain the spinning coin */
         }
         .hero-section h1 {
-            color: #4B0082; /* Deep purple for title */
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
-            position: relative;
-            display: inline-block; /* For spinning coin positioning */
+            color: #00FFFF; /* Electric Cyan for title */
+            text-shadow: 0 0 15px rgba(0,255,255,0.8), 0 0 25px rgba(0,255,255,0.5);
+        }
+        .hero-section p {
+            color: #E0E0E0;
         }
         .spinning-coin {
             display: inline-block;
@@ -183,57 +192,60 @@
             100% { transform: rotateY(360deg); }
         }
         .btn-primary {
-            background-color: #00FFFF; /* Cyan button */
-            color: #2c3e50; /* Dark text on cyan */
+            background-color: #FF69B4; /* Hot Pink button */
+            color: white; /* White text on hot pink */
             font-weight: bold;
             padding: 0.75rem 2.5rem; /* Larger padding */
             border-radius: 9999px; /* Pill shape */
             transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Bouncy transition */
-            box-shadow: 0 6px 12px -2px rgb(0 255 255 / 0.4), 0 3px 6px -3px rgb(0 255 255 / 0.3);
-            border: 2px solid #4B0082; /* Purple border */
+            box-shadow: 0 6px 12px -2px rgb(255 105 180 / 0.5), 0 3px 6px -3px rgb(255 105 180 / 0.3);
+            border: 2px solid #00FFFF; /* Cyan border */
         }
         .btn-primary:hover {
-            background-color: #00BFFF; /* Slightly darker cyan on hover */
-            box-shadow: 0 12px 20px -3px rgb(0 255 255 / 0.5), 0 6px 10px -4px rgb(0 255 255 / 0.4);
+            background-color: #FF00FF; /* Magenta on hover */
+            box-shadow: 0 12px 20px -3px rgb(255 0 255 / 0.5), 0 6px 10px -4px rgb(255 0 255 / 0.4);
             transform: translateY(-5px) scale(1.05); /* More pronounced bounce */
         }
         footer {
-            background-color: #4B0082; /* Deep purple footer */
-            color: #FFD700; /* Gold text */
+            background-color: #0A0A1A; /* Deep space footer */
+            color: #00FFFF; /* Cyan text */
+            border-top: 2px solid #FFD700; /* Gold top border */
         }
         #countdown-timer {
             font-family: 'Bebas Neue', sans-serif;
             font-size: 2.5rem;
-            color: #FF69B4; /* Hot pink */
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            color: #00FFFF; /* Cyan */
+            text-shadow: 0 0 8px rgba(0,255,255,0.6);
             margin-top: 1.5rem;
             text-align: center;
         }
         #countdown-timer span {
             display: inline-block;
             margin: 0 0.5rem;
-            background-color: #FFFAF0;
+            background-color: #1A1A33; /* Darker background */
             padding: 0.5rem 1rem;
             border-radius: 0.5rem;
-            border: 2px solid #FFD700;
+            border: 2px solid #FF69B4; /* Hot Pink border */
+            color: #FFD700; /* Gold numbers */
         }
         #countdown-message {
             font-family: 'Comic Neue', cursive;
             font-size: 1.5rem;
-            color: #E74C3C; /* Red for "fail" */
+            color: #FF00FF; /* Magenta for "fail" */
             margin-top: 1rem;
             text-align: center;
             font-weight: bold;
         }
         .llm-feature-card {
-            background-color: #E0FFFF; /* Light Cyan */
-            border: 4px solid #4B0082; /* Deep Purple border */
+            background-color: rgba(26, 26, 51, 0.8); /* Semi-transparent dark card */
+            border: 4px solid #FF00FF; /* Magenta border */
             transform: rotate(-2deg); /* A bit more tilt */
-            box-shadow: 0 8px 16px -2px rgba(0,0,0,0.2);
+            box-shadow: 0 0 20px rgba(255,0,255,0.5); /* Magenta glow */
+            color: #E0E0E0;
         }
         .llm-feature-card:hover {
             transform: translateY(-10px) rotate(2deg); /* Opposite tilt on hover */
-            box-shadow: 0 15px 25px -5px rgba(0,0,0,0.3);
+            box-shadow: 0 0 30px rgba(255,0,255,0.8);
         }
         .llm-button {
             background-color: #FFD700; /* Gold button */
@@ -269,7 +281,7 @@
             margin: 4rem auto;
             width: 80%;
             max-width: 600px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 0 15px rgba(255,105,180,0.7); /* Pink glow for divider */
         }
         .tib-coin-logo {
             font-family: 'Bebas Neue', sans-serif;
@@ -322,10 +334,10 @@
         </section>
 
         <!-- Moved Countdown Timer Section -->
-        <section id="top-countdown" class="py-10 bg-yellow-50">
+        <section id="top-countdown" class="py-10" style="background-color: #1A1A33;">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <div class="card p-8 rotate-1" style="background-color: #FFFAF0; border: 4px dashed #FF69B4;">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">"Fail Launch" Countdown! Don't Miss the Chaos!</h3>
+                <div class="card p-8 rotate-1" style="background-color: #0A0A1A; border: 4px dashed #00FFFF;">
+                    <h3 class="text-2xl font-bold text-E0FFFF mb-4">"Fail Launch" Countdown! Don't Miss the Chaos!</h3>
                     <div id="countdown-timer">
                         <span id="days">00</span> Days
                         <span id="hours">00</span> Hours
@@ -348,25 +360,25 @@
 
         <div class="section-divider"></div>
 
-        <section id="why-tibcoin" class="py-20 bg-white">
+        <section id="why-tibcoin" class="py-20" style="background-color: #0A0A1A;">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Why TibCoin? Because We're Different! ✨</h2>
-                    <p class="mt-4 text-lg text-gray-600">Not just another coin, TibCoin is built on pure decentralized vibes and community power!</p>
+                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Why TibCoin? Because We're Different! ✨</h2>
+                    <p class="mt-4 text-lg text-E0E0E0">Not just another coin, TibCoin is built on pure decentralized vibes and community power!</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                     <div class="card p-6 rotate-2">
-                        <h3 class="text-xl font-bold text-purple-600 mb-2">Anon Devs, Much Trust!</h3>
-                        <p class="text-gray-600">Our team is so anonymous, we're basically ninjas. This means no central points of failure, just pure, unadulterated decentralization!</p>
+                        <h3 class="text-xl font-bold text-purple-400 mb-2">Anon Devs, Much Trust!</h3>
+                        <p class="text-E0E0E0">Our team is so anonymous, we're basically ninjas. This means no central points of failure, just pure, unadulterated decentralization!</p>
                     </div>
                     <div class="card p-6 -rotate-2">
-                        <h3 class="text-xl font-bold text-cyan-600 mb-2">Fair Launch, No Whales!</h3>
-                        <p class="text-600">No presales, no team allocations, no sneaky early birds. Everyone gets to ape in at the same time. This is the way!</p>
+                        <h3 class="text-xl font-bold text-cyan-400 mb-2">Fair Launch, No Whales!</h3>
+                        <p class="text-E0E0E0">No presales, no team allocations, no sneaky early birds. Everyone gets to ape in at the same time. This is the way!</p>
                     </p>
                     </div>
                     <div class="card p-6 rotate-2">
-                        <h3 class="text-xl font-bold text-pink-600 mb-2">Community Driven, WAGMI!</h3>
-                        <p class="text-600">TibCoin is powered by YOU, the degens and diamond hands! Your memes, your energy, your future. We Are All Gonna Make It!</p>
+                        <h3 class="text-xl font-bold text-pink-400 mb-2">Community Driven, WAGMI!</h3>
+                        <p class="text-E0E0E0">TibCoin is powered by YOU, the degens and diamond hands! Your memes, your energy, your future. We Are All Gonna Make It!</p>
                     </div>
                 </div>
             </div>
@@ -374,22 +386,22 @@
 
         <div class="section-divider"></div>
 
-        <section id="too-late" class="py-20">
+        <section id="too-late" class="py-20" style="background-color: #1A1A33;">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Too Late for Bitcoin? What About TibCoin?! 🤯</h2>
-                    <p class="mt-4 text-lg text-gray-600">Feeling like you missed the BTC rocket? Don't FOMO, TibCoin is here for the next moonshot!</p>
+                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Too Late for Bitcoin? What About TibCoin?! 🤯</h2>
+                    <p class="mt-4 text-lg text-E0E0E0">Feeling like you missed the BTC rocket? Don't FOMO, TibCoin is here for the next moonshot!</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="card p-8 rotate-1">
-                        <h3 class="text-2xl font-bold text-gray-700">Bitcoin: The OG, But... 👴</h3>
-                        <p class="mt-4 text-gray-600">
+                        <h3 class="text-2xl font-bold text-gray-400">Bitcoin: The OG, But... 👴</h3>
+                        <p class="mt-4 text-E0E0E0">
                             Bitcoin's cool, sure. But it's already done its 10,000x. The early days are long gone. Transaction fees? Sometimes higher than your grandma's grocery bill. And let's be real, are you really gonna buy a whole BTC now? NGMI if you wait for another miracle.
                         </p>
                     </div>
                     <div class="card p-8 -rotate-1">
-                        <h3 class="text-2xl font-bold text-green-600">TibCoin: The Fresh New Meme! 🌱</h3>
-                        <p class="mt-4 text-gray-600">
+                        <h3 class="text-2xl font-bold text-green-400">TibCoin: The Fresh New Meme! 🌱</h3>
+                        <p class="mt-4 text-E0E0E0">
                             TibCoin is the fresh start, the clean slate, the diamond in the rough! Low market cap, high meme potential. This is where the real degens find their alpha. Get in early, stack those $TIBs, and prepare for the ride of your life. Wen Lambo? Soon, fren, soon!
                         </p>
                     </div>
@@ -399,22 +411,22 @@
 
         <div class="section-divider"></div>
 
-        <section id="problem" class="py-20 bg-white">
+        <section id="problem" class="py-20" style="background-color: #0A0A1A;">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">The Big Problem & Our Epic Solution!</h2>
-                    <p class="mt-4 text-lg text-gray-600">Why TibCoin exists? To banish boring banks and double-spending woes!</p>
+                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">The Big Problem & Our Epic Solution!</h2>
+                    <p class="mt-4 text-lg text-E0E0E0">Why TibCoin exists? To banish boring banks and double-spending woes!</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="card p-8 rotate-1">
-                        <h3 class="text-2xl font-bold text-red-600">The Problem: Double-Spending Disaster!</h3>
-                        <p class="mt-4 text-gray-600">
+                        <h3 class="text-2xl font-bold text-red-400">The Problem: Double-Spending Disaster!</h3>
+                        <p class="mt-4 text-E0E0E0">
                             Imagine sending a digital coin, then sending it again! Without a central boss (like a bank), who stops the digital shenanigans? Traditional systems are stuck in the past, full of fees and slow pokes. Not cool!
                         </p>
                     </div>
                     <div class="card p-8 -rotate-1">
-                        <h3 class="text-2xl font-bold text-green-600">The Solution: The Blockchain Bonanza!</h3>
-                        <p class="mt-4 text-gray-600">
+                        <h3 class="text-2xl font-bold text-green-400">The Solution: The Blockchain Bonanza!</h3>
+                        <p class="mt-4 text-E0E0E0">
                             TibCoin drops a public ledger (the blockchain!) where everyone sees everything. Transactions are bundled into "blocks," and each block needs a super-hard puzzle solved (Proof-of-Work). Once it's in, it's set in stone – no take-backs!
                         </p>
                     </div>
@@ -424,11 +436,11 @@
 
         <div class="section-divider"></div>
 
-        <section id="how-it-works" class="py-20 bg-white">
+        <section id="how-it-works" class="py-20" style="background-color: #1A1A33;">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">How It Works: The Digital Magic!</h2>
-                    <p class="mt-4 text-lg text-gray-600">Uncover the secrets behind TibCoin's awesome power!</p>
+                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">How It Works: The Digital Magic!</h2>
+                    <p class="mt-4 text-lg text-E0E0E0">Uncover the secrets behind TibCoin's awesome power!</p>
                 </div>
 
                 <div class="mb-8 flex justify-center space-x-2 md:space-x-4">
@@ -440,13 +452,13 @@
                 <div id="transactions-content" class="tab-content">
                     <div class="card p-8">
                         <h3 class="text-2xl font-bold mb-4 text-center">Your Coin: A Chain of Awesome Signatures!</h3>
-                        <p class="text-center text-gray-600 mb-8">Every time TibCoin changes hands, it gets a fresh digital signature, creating an unbreakable chain of ownership. So cool!</p>
+                        <p class="text-center text-E0E0E0 mb-8">Every time TibCoin changes hands, it gets a fresh digital signature, creating an unbreakable chain of ownership. So cool!</p>
                         <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
-                            <div class="flow-box">Owner 1's Public Key</div>
+                            <div class="flow-box" style="border-color: #FF69B4; background-color: #0A0A1A;">Owner 1's Public Key</div>
                             <div class="arrow">&#10142;</div>
-                            <div class="flow-box">Hash(Tx1 + Owner 2's Key)<br/><span class="text-xs text-gray-500">Signed by Owner 1</span></div>
+                            <div class="flow-box" style="border-color: #FF69B4; background-color: #0A0A1A;">Hash(Tx1 + Owner 2's Key)<br/><span class="text-xs text-gray-400">Signed by Owner 1</span></div>
                             <div class="arrow">&#10142;</div>
-                            <div class="flow-box">Hash(Tx2 + Owner 3's Key)<br/><span class="text-xs text-gray-500">Signed by Owner 2</span></div>
+                            <div class="flow-box" style="border-color: #FF69B4; background-color: #0A0A1A;">Hash(Tx2 + Owner 3's Key)<br/><span class="text-xs text-gray-400">Signed by Owner 2</span></div>
                         </div>
                     </div>
                 </div>
@@ -454,32 +466,32 @@
                 <div id="pow-content" class="tab-content hidden">
                     <div class="card p-8">
                          <h3 class="text-2xl font-bold mb-4 text-center">Proof-of-Work: The Ultimate Security Guard!</h3>
-                        <p class="text-center text-gray-600 mb-8">"Miners" race to solve tricky puzzles to add new transaction blocks. This brainy effort keeps the ledger safe from sneaky hackers!</p>
+                        <p class="text-center text-E0E0E0 mb-8">"Miners" race to solve tricky puzzles to add new transaction blocks. This brainy effort keeps the ledger safe from sneaky hackers!</p>
                         <div id="pow-animation" class="flex flex-col items-center">
                             <div class="flex items-center justify-center space-x-8 mb-8">
                                 <div class="text-center">
-                                    <h4 class="font-bold">Transaction Pool</h4>
-                                    <div class="p-4 bg-gray-100 rounded-lg mt-2">Tx, Tx, Tx...</div>
+                                    <h4 class="font-bold text-E0FFFF">Transaction Pool</h4>
+                                    <div class="p-4 rounded-lg mt-2" style="background-color: #0A0A1A; border: 2px solid #00FFFF;">Tx, Tx, Tx...</div>
                                 </div>
                                 <div class="arrow">&#10142;</div>
                                 <div class="text-center">
-                                    <h4 class="font-bold">Mining Process</h4>
-                                    <div class="p-4 bg-yellow-100 rounded-lg mt-2">
+                                    <h4 class="font-bold text-E0FFFF">Mining Process</h4>
+                                    <div class="p-4 rounded-lg mt-2" style="background-color: #0A0A1A; border: 2px solid #FFD700;">
                                         Hash(Block Data + <span class="nonce font-mono">12345</span>)
                                     </div>
                                 </div>
                                 <div class="arrow">&#10142;</div>
                                  <div class="text-center">
-                                    <h4 class="font-bold">Valid Hash Found!</h4>
-                                    <div class="p-4 bg-green-100 rounded-lg mt-2 font-mono text-sm break-all">0000...abc123</div>
+                                    <h4 class="font-bold text-E0FFFF">Valid Hash Found!</h4>
+                                    <div class="p-4 rounded-lg mt-2 font-mono text-sm break-all" style="background-color: #0A0A1A; border: 2px solid #00FF00; color: #00FF00;">0000...abc123</div>
                                 </div>
                             </div>
-                            <h4 class="font-bold mb-4">The Longest Chain is the Truth (and the Funniest!)</h4>
+                            <h4 class="font-bold mb-4 text-E0FFFF">The Longest Chain is the Truth (and the Funniest!)</h4>
                             <div class="flex items-center">
-                                <div class="block border-purple-300">Block N-2</div>
-                                <div class="block border-purple-300 relative"><div class="block-link"></div>Block N-1</div>
-                                <div class="block border-pink-500 relative"><div class="block-link"></div>Block N</div>
-                                <div id="new-block" class="block border-cyan-500 relative opacity-0 transition-opacity duration-1000"><div class="block-link"></div>New Block!</div>
+                                <div class="block" style="border-color: #4B0082; background-color: #0A0A1A;">Block N-2</div>
+                                <div class="block relative" style="border-color: #4B0082; background-color: #0A0A1A;"><div class="block-link" style="background-color: #FFD700;"></div>Block N-1</div>
+                                <div class="block relative" style="border-color: #FF69B4; background-color: #0A0A1A;"><div class="block-link" style="background-color: #FFD700;"></div>Block N</div>
+                                <div id="new-block" class="block relative opacity-0 transition-opacity duration-1000" style="border-color: #00FFFF; background-color: #0A0A1A;"><div class="block-link" style="background-color: #FFD700;"></div>New Block!</div>
                             </div>
                         </div>
                     </div>
@@ -488,8 +500,8 @@
                 <div id="network-content" class="tab-content hidden">
                     <div class="card p-8">
                         <h3 class="text-2xl font-bold mb-4 text-center">A Decentralized Network: Everyone's Invited!</h3>
-                        <p class="text-center text-gray-600 mb-8">TibCoin runs on a cool peer-to-peer network with simple, awesome rules.</p>
-                        <ol class="list-decimal list-inside space-y-4 max-w-2xl mx-auto text-gray-700">
+                        <p class="text-center text-E0E0E0 mb-8">TibCoin runs on a cool peer-to-peer network with simple, awesome rules.</p>
+                        <ol class="list-decimal list-inside space-y-4 max-w-2xl mx-auto text-E0E0E0">
                             <li>New transactions zoom across to all nodes.</li>
                             <li>Each node gathers new transactions into a block.</li>
                             <li>Every node tries to find the super-hard proof-of-work for its block.</li>
@@ -504,25 +516,25 @@
 
         <div class="section-divider"></div>
 
-        <section id="security" class="py-20">
+        <section id="security" class="py-20" style="background-color: #0A0A1A;">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Security Simulator: Can You Break It? (Probably Not!)</h2>
-                    <p class="mt-4 text-lg text-gray-600">TibCoin's security is like a fortress, guarded by honest miners! Play with the slider to see how hard it is for a bad guy to catch up.</p>
+                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Security Simulator: Can You Break It? (Probably Not!)</h2>
+                    <p class="mt-4 text-lg text-E0E0E0">TibCoin's security is like a fortress, guarded by honest miners! Play with the slider to see how hard it is for a bad guy to catch up.</p>
                 </div>
                 <div class="card p-8">
                     <div class="chart-container">
                         <canvas id="securityChart"></canvas>
                     </div>
                     <div class="mt-8 max-w-xl mx-auto">
-                        <label for="attacker-power" class="block text-sm font-medium text-gray-700">Attacker's CPU Power (%)</label>
-                        <input type="range" id="attacker-power" min="1" max="99" value="30" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-2">
-                        <div class="flex justify-between text-xs text-gray-500 mt-1">
+                        <label for="attacker-power" class="block text-sm font-medium text-E0E0E0">Attacker's CPU Power (%)</label>
+                        <input type="range" id="attacker-power" min="1" max="99" value="30" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer mt-2">
+                        <div class="flex justify-between text-xs text-gray-400 mt-1">
                             <span>1% (Weak Sauce!)</span>
-                            <span id="attacker-power-value" class="font-bold text-pink-600">30%</span>
+                            <span id="attacker-power-value" class="font-bold text-pink-400">30%</span>
                             <span>99% (Almost There, Buddy!)</span>
                         </div>
-                        <p class="text-sm text-gray-600 mt-4 text-center">
+                        <p class="text-sm text-gray-400 mt-4 text-center">
                             This chart shows the chance of a sneaky attacker pulling off a "51% attack" (where they control most of the network). Watch how the probability drops faster than a hot potato as more blocks are added! It's practically impossible!
                         </p>
                     </div>
@@ -533,17 +545,17 @@
         <div class="section-divider"></div>
 
         <!-- Mock Price Chart Section -->
-        <section id="price-chart" class="py-20 bg-white">
+        <section id="price-chart" class="py-20" style="background-color: #1A1A33;">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">TibCoin Price: To The Moon Trajectory! 🚀📈</h2>
-                    <p class="mt-4 text-lg text-gray-600">Witness the inevitable ascent of $TIB! This chart shows the future, probably. (Definitely not financial advice, just pure hopium!)</p>
+                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">TibCoin Price: To The Moon Trajectory! 🚀📈</h2>
+                    <p class="mt-4 text-lg text-E0E0E0">Witness the inevitable ascent of $TIB! This chart shows the future, probably. (Definitely not financial advice, just pure hopium!)</p>
                 </div>
                 <div class="card p-8">
                     <div class="chart-container">
                         <canvas id="priceChart"></canvas>
                     </div>
-                    <p class="text-sm text-gray-600 mt-4 text-center font-bold text-red-500">
+                    <p class="text-sm text-center font-bold text-red-400 mt-4">
                         Disclaimer: This is a simulated chart for entertainment purposes only and does not reflect actual or guaranteed future price movements. Past performance is not indicative of future results. Do your own research (DYOR)!
                     </p>
                 </div>
@@ -553,24 +565,24 @@
 
         <div class="section-divider"></div>
 
-        <section id="features" class="py-20 bg-white">
+        <section id="features" class="py-20" style="background-color: #0A0A1A;">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Key Features & Super Cool Concepts!</h2>
-                    <p class="mt-4 text-lg text-gray-600">Beyond the main stuff, TibCoin has even more awesome tricks up its sleeve!</p>
+                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Key Features & Super Cool Concepts!</h2>
+                    <p class="mt-4 text-lg text-E0E0E0">Beyond the main stuff, TibCoin has even more awesome tricks up its sleeve!</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div class="card p-6 rotate-1">
-                        <h3 class="text-xl font-bold">Incentive: Get Rich (or Mine Trying)!</h3>
-                        <p class="mt-2 text-gray-600">Miners get sweet TibCoins and transaction fees for their hard work. It's like a treasure hunt, but everyone wins (if they're honest)!</p>
+                        <h3 class="text-xl font-bold text-purple-400">Incentive: Get Rich (or Mine Trying)!</h3>
+                        <p class="mt-2 text-E0E0E0">Miners get sweet TibCoins and transaction fees for their hard work. It's like a treasure hunt, but everyone wins (if they're honest)!</p>
                     </div>
                     <div class="card p-6 -rotate-1">
-                        <h3 class="text-xl font-bold">Privacy: Who's That Masked TibCoiner?</h3>
-                        <p class="mt-2 text-gray-600">Transactions are public, but your identity stays a secret! It's like a digital masquerade ball – everyone sees the dance, but not the dancers!</p>
+                        <h3 class="text-xl font-bold text-cyan-400">Privacy: Who's That Masked TibCoiner?</h3>
+                        <p class="mt-2 text-E0E0E0">Transactions are public, but your identity stays a secret! It's like a digital masquerade ball – everyone sees the dance, but not the dancers!</p>
                     </div>
                     <div class="card p-6 rotate-1">
-                        <h3 class="text-xl font-bold">Reclaiming Disk Space: Tidy Up Time!</h3>
-                        <p class="mt-2 text-gray-600">Once transactions are super old and buried deep, we can magically shrink the blockchain to save space. No digital clutter here!</p>
+                        <h3 class="text-xl font-bold text-pink-400">Reclaiming Disk Space: Tidy Up Time!</h3>
+                        <p class="mt-2 text-E0E0E0">Once transactions are super old and buried deep, we can magically shrink the blockchain to save space. No digital clutter here!</p>
                     </div>
                 </div>
             </div>
@@ -579,28 +591,28 @@
         <div class="section-divider"></div>
 
         <!-- Ape In Profit Calculator Section -->
-        <section id="profit-calculator" class="py-20">
+        <section id="profit-calculator" class="py-20" style="background-color: #1A1A33;">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Ape In! Profit Calculator 💰</h2>
-                    <p class="mt-4 text-lg text-gray-600">Dreaming of that Lambo? See your potential gains if $TIB moons! (Not financial advice, just for fun, degens!)</p>
+                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Ape In! Profit Calculator 💰</h2>
+                    <p class="mt-4 text-lg text-E0E0E0">Dreaming of that Lambo? See your potential gains if $TIB moons! (Not financial advice, just for fun, degens!)</p>
                 </div>
                 <div class="card p-8 llm-feature-card">
                     <h3 class="text-2xl font-bold mb-4 text-center">Calculate Your Moonshot!</h3>
                     <div class="flex flex-col items-center space-y-4">
                         <div class="w-full max-w-md flex items-center space-x-4">
-                            <label for="investment-amount" class="text-lg font-bold text-gray-700 w-1/3 text-right">Invest ($):</label>
-                            <input type="number" id="investment-amount" class="w-2/3 p-3 border-4 border-purple-400 rounded-lg focus:outline-none focus:ring-4 focus:ring-pink-300 text-gray-700" value="100" min="1">
+                            <label for="investment-amount" class="text-lg font-bold text-E0E0E0 w-1/3 text-right">Invest ($):</label>
+                            <input type="number" id="investment-amount" class="w-2/3 p-3 border-4 border-purple-400 rounded-lg focus:outline-none focus:ring-4 focus:ring-pink-300 text-E0E0E0 bg-gray-800" value="100" min="1">
                         </div>
                         <div class="w-full max-w-md flex items-center space-x-4">
-                            <label for="multiplier" class="text-lg font-bold text-gray-700 w-1/3 text-right">Multiplier (X):</label>
-                            <input type="number" id="multiplier" class="w-2/3 p-3 border-4 border-purple-400 rounded-lg focus:outline-none focus:ring-4 focus:ring-pink-300 text-gray-700" value="100" min="1">
+                            <label for="multiplier" class="text-lg font-bold text-E0E0E0 w-1/3 text-right">Multiplier (X):</label>
+                            <input type="number" id="multiplier" class="w-2/3 p-3 border-4 border-purple-400 rounded-lg focus:outline-none focus:ring-4 focus:ring-pink-300 text-E0E0E0 bg-gray-800" value="100" min="1">
                         </div>
                         <button id="calculate-profit-btn" class="llm-button">
                             <span>Show Me the Gains!</span>
                         </button>
-                        <div id="profit-output" class="w-full max-w-md p-4 bg-yellow-100 border-2 border-yellow-400 rounded-lg text-gray-800 text-center mt-4 hidden">
-                            <p class="font-bold text-xl">Your $TIB could be worth: <span id="calculated-profit" class="text-green-600 text-2xl">$0.00</span> 🚀</p>
+                        <div id="profit-output" class="w-full max-w-md p-4 bg-yellow-100 border-2 border-yellow-400 rounded-lg text-gray-800 text-center mt-4 hidden" style="background-color: #0A0A1A; border-color: #FFD700; color: #E0E0E0;">
+                            <p class="font-bold text-xl">Your $TIB could be worth: <span id="calculated-profit" class="text-green-400 text-2xl">$0.00</span> 🚀</p>
                             <p class="text-sm mt-2">Wen Lambo?!</p>
                         </div>
                     </div>
@@ -612,15 +624,15 @@
         <div class="section-divider"></div>
 
         <!-- TibCoin Token Section -->
-        <section id="token-tib" class="py-20">
+        <section id="token-tib" class="py-20" style="background-color: #0A0A1A;">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">TibCoin Token: $TIB - The Coin of Legends!</h2>
-                    <p class="mt-4 text-lg text-gray-600">Meet $TIB, the digital gold that powers the TibCoin universe! It's not just a coin, it's a lifestyle!</p>
+                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">TibCoin Token: $TIB - The Coin of Legends!</h2>
+                    <p class="mt-4 text-lg text-E0E0E0">Meet $TIB, the digital gold that powers the TibCoin universe! It's not just a coin, it's a lifestyle!</p>
                 </div>
-                <div class="card p-8 text-center text-gray-500">
+                <div class="card p-8 text-center text-gray-400">
                     <p class="mb-4">The TibCoin ($TIB) is the super-duper native cryptocurrency of the TibCoin network. It's what we use to give props (rewards!) to our awesome miners for keeping the network safe and sound with their Proof-of-Work magic. Plus, it covers transaction fees so everything runs smooth like butter. $TIB is designed for predictable fun and distributed fairly – no central big boss here!</p>
-                    <p class="mb-4 font-bold text-gray-700">
+                    <p class="mb-4 font-bold text-E0E0E0">
                         🤫 Anonymous Devs: We're so anonymous, even we don't know who we are!
                         <br>
                         🚫 No Team Allocation: All $TIB for the people, by the people!
@@ -634,18 +646,18 @@
         <div class="section-divider"></div>
 
         <!-- Roadmap Section -->
-        <section id="roadmap" class="py-20 bg-white">
+        <section id="roadmap" class="py-20" style="background-color: #1A1A33;">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Roadmap: Where We're Headed (To the Moon, Obviously!) 🌕</h2>
-                    <p class="mt-4 text-lg text-gray-600">Our journey is just beginning, but here's a sneak peek at the epic path ahead for TibCoin!</p>
+                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Roadmap: Where We're Headed (To the Moon, Obviously!) 🌕</h2>
+                    <p class="mt-4 text-lg text-E0E0E0">Our journey is just beginning, but here's a sneak peek at the epic path ahead for TibCoin!</p>
                 </div>
-                <div class="card p-8 text-center text-gray-500 rotate-1">
+                <div class="card p-8 text-center text-gray-400 rotate-1">
                     <p class="mb-4">Phase 1: Launch & Meme Domination (Current)</p>
                     <p class="mb-4">Phase 2: Community Building & Degen Cultivation</p>
                     <p class="mb-4">Phase 3: Utility Exploration (Maybe a TibCoin game? Who knows!)</p>
                     <p class="mb-4">Phase 4: Launch NFT Collection (TBA)</p>
-                    <p class="font-bold text-gray-700">Disclaimer: Roadmap subject to change based on meme trends and community vibes. Not financial advice, just pure speculation!</p>
+                    <p class="font-bold text-E0E0E0">Disclaimer: Roadmap subject to change based on meme trends and community vibes. Not financial advice, just pure speculation!</p>
                 </div>
             </div>
         </section>
@@ -653,16 +665,16 @@
         <div class="section-divider"></div>
 
         <!-- Community Section -->
-        <section id="community" class="py-20">
+        <section id="community" class="py-20" style="background-color: #0A0A1A;">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Join the TibCoin Army! WAGMI! 💪</h2>
-                    <p class="mt-4 text-lg text-gray-600">Our community is the heart and soul of TibCoin. Don't be a paper hand, join the diamond hands!</p>
+                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Join the TibCoin Army! WAGMI! 💪</h2>
+                    <p class="mt-4 text-lg text-E0E0E0">Our community is the heart and soul of TibCoin. Don't be a paper hand, join the diamond hands!</p>
                 </div>
-                <div class="card p-8 text-center text-gray-500 -rotate-1">
+                <div class="card p-8 text-center text-gray-400 -rotate-1">
                     <p class="mb-4">Connect with fellow degens and enthusiasts!</p>
-                    <p class="mb-4 font-bold text-gray-700">Find us on:</p>
-                    <p class="mb-2">🐦 Twitter (X): <a href="https://twitter.com/tibcoin_" target="_blank" class="text-blue-500 hover:underline">@tibcoin_</a></p>
+                    <p class="mb-4 font-bold text-E0E0E0">Find us on:</p>
+                    <p class="mb-2">🐦 Twitter (X): <a href="https://twitter.com/tibcoin_" target="_blank" class="text-blue-400 hover:underline">@tibcoin_</a></p>
                     <p class="mt-4">Let's spread the meme, one TibCoin at a time!</p>
                 </div>
             </div>
@@ -671,21 +683,21 @@
         <div class="section-divider"></div>
 
         <!-- LLM-powered Meme Tweet Generator Section -->
-        <section id="meme-generator" class="py-20 bg-white">
+        <section id="meme-generator" class="py-20" style="background-color: #1A1A33;">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">TibCoin Meme Lab ✨</h2>
-                    <p class="mt-4 text-lg text-gray-600">Unleash the power of AI to generate epic TibCoin tweets! Just tell us your vibe.</p>
+                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">TibCoin Meme Lab ✨</h2>
+                    <p class="mt-4 text-lg text-E0E0E0">Unleash the power of AI to generate epic TibCoin tweets! Just tell us your vibe.</p>
                 </div>
                 <div class="card p-8 llm-feature-card">
                     <h3 class="text-2xl font-bold mb-4 text-center">Generate a Meme-tastic Tweet!</h3>
                     <div class="flex flex-col items-center space-y-4">
-                        <textarea id="tweet-prompt" class="w-full max-w-md p-3 border-4 border-purple-400 rounded-lg focus:outline-none focus:ring-4 focus:ring-pink-300 text-gray-700" rows="3" placeholder="Tell me what kind of tweet you want (e.g., 'TibCoin to the moon', 'Feeling bullish about TIB', 'Explain blockchain like I'm 5')..."></textarea>
+                        <textarea id="tweet-prompt" class="w-full max-w-md p-3 border-4 border-purple-400 rounded-lg focus:outline-none focus:ring-4 focus:ring-pink-300 text-E0E0E0 bg-gray-800" rows="3" placeholder="Tell me what kind of tweet you want (e.g., 'TibCoin to the moon', 'Feeling bullish about TIB', 'Explain blockchain like I'm 5')..."></textarea>
                         <button id="generate-tweet-btn" class="llm-button flex items-center justify-center space-x-2">
                             <span>Generate Tweet!</span>
                             <div id="loading-spinner" class="loading-spinner hidden"></div>
                         </button>
-                        <div id="generated-tweet-output" class="w-full max-w-md p-4 bg-yellow-100 border-2 border-yellow-400 rounded-lg text-gray-800 text-center mt-4 hidden">
+                        <div id="generated-tweet-output" class="w-full max-w-md p-4 bg-yellow-100 border-2 border-yellow-400 rounded-lg text-gray-800 text-center mt-4 hidden" style="background-color: #0A0A1A; border-color: #FFD700; color: #E0E0E0;">
                             <!-- Generated tweet will appear here -->
                         </div>
                         <button id="tweet-on-x-btn" class="llm-button hidden">
@@ -813,29 +825,29 @@
                             title: {
                                 display: true,
                                 text: 'Probability of Success',
-                                color: '#4B0082' /* Purple text */
+                                color: '#E0FFFF' /* Cyan text */
                             },
                             ticks: {
                                 callback: function(value) {
                                     return (value * 100).toFixed(0) + '%';
                                 },
-                                color: '#2c3e50'
+                                color: '#E0E0E0'
                             },
                             grid: {
-                                color: 'rgba(0, 0, 0, 0.05)'
+                                color: 'rgba(255, 255, 255, 0.1)' /* Lighter grid for dark background */
                             }
                         },
                         x: {
                             title: {
                                 display: true,
                                 text: 'Number of Blocks Behind (z)',
-                                color: '#4B0082' /* Purple text */
+                                color: '#E0FFFF' /* Cyan text */
                             },
                             ticks: {
-                                color: '#2c3e50'
+                                color: '#E0E0E0'
                             },
                             grid: {
-                                color: 'rgba(0, 0, 0, 0.05)'
+                                color: 'rgba(255, 255, 255, 0.1)'
                             }
                         }
                     },
@@ -852,11 +864,16 @@
                                     }
                                     return label;
                                 }
-                            }
+                            },
+                            titleColor: '#E0E0E0',
+                            bodyColor: '#E0E0E0',
+                            backgroundColor: 'rgba(26, 26, 51, 0.9)', /* Dark tooltip background */
+                            borderColor: '#FF69B4', /* Hot pink border */
+                            borderWidth: 1,
                         },
                         legend: {
                             labels: {
-                                color: '#2c3e50' /* Legend text color */
+                                color: '#E0E0E0' /* Legend text color */
                             }
                         }
                     }
@@ -902,29 +919,29 @@
                             title: {
                                 display: true,
                                 text: 'Price ($)',
-                                color: '#4B0082'
+                                color: '#E0FFFF'
                             },
                             ticks: {
                                 callback: function(value) {
                                     return '$' + value.toFixed(6);
                                 },
-                                color: '#2c3e50'
+                                color: '#E0E0E0'
                             },
                             grid: {
-                                color: 'rgba(0, 0, 0, 0.05)'
+                                color: 'rgba(255, 255, 255, 0.1)'
                             }
                         },
                         x: {
                             title: {
                                 display: true,
                                 text: 'Time',
-                                color: '#4B0082'
+                                color: '#E0FFFF'
                             },
                             ticks: {
-                                color: '#2c3e50'
+                                color: '#E0E0E0'
                             },
                             grid: {
-                                color: 'rgba(0, 0, 0, 0.05)'
+                                color: 'rgba(255, 255, 255, 0.1)'
                             }
                         }
                     },
@@ -941,11 +958,16 @@
                                     }
                                     return label;
                                 }
-                            }
+                            },
+                            titleColor: '#E0E0E0',
+                            bodyColor: '#E0E0E0',
+                            backgroundColor: 'rgba(26, 26, 51, 0.9)',
+                            borderColor: '#00FFFF',
+                            borderWidth: 1,
                         },
                         legend: {
                             labels: {
-                                color: '#2c3e50'
+                                color: '#E0E0E0'
                             }
                         }
                     }
