@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive TibCoin White Paper</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Meme Mania (Vibrant Yellow, Hot Pink, Cyan, Purple Accents) -->
+    <!-- Application Structure Plan: The SPA is designed with a thematic, non-linear flow to maximize understanding. It starts with a high-level "Problem vs. Solution" to frame the context. The core is the "How It Works" section, using tabbed navigation to break down complex topics (Transactions, Proof-of-Work, Network) into digestible, visual steps. The highlight is the "Security Simulator," which turns the abstract mathematical formula from the paper into a tangible, interactive chart, allowing users to directly experience the core security principle. This structure was chosen over a linear chapter-by-chapter approach to be more engaging and to prioritize the understanding of key concepts through interaction rather than passive reading. The top navigation bar has been removed, making the page a continuous scroll experience, emphasizing the "single page" aspect. -->
+    <!-- Visualization & Content Choices: 
+        - Problem/Solution (Goal: Compare): A two-column layout using HTML/Tailwind to starkly contrast the old and new paradigms, now with more vibrant card styling.
+        - Transaction Chain (Goal: Organize): A visual flow diagram using styled HTML divs and arrows to represent the chain of digital signatures, with playful colors.
+        - Proof-of-Work (Goal: Organize/Change): An animated HTML/CSS diagram shows a "nonce" changing, a hash being found, and a block being added to a chain, illustrating the process over time, with a more dynamic nonce animation.
+        - Network Flow (Goal: Relationships): A simplified visual representation of nodes broadcasting transactions, built with HTML/CSS, maintaining clarity.
+        - Security Simulation (Goal: Inform/Compare): An interactive line chart (Chart.js) where users manipulate an input slider (Attacker's CPU Power) to see the probability of an attack change dynamically. The chart colors are updated to match the new vibrant palette. Justification: This is the most effective way to demonstrate the exponential security of the blockchain.
+        - Key Features (Goal: Inform): A card-based grid layout (HTML/Tailwind) to present secondary concepts, now with a slightly tilted and bolder border for a meme aesthetic.
+        - Token Section (Goal: Inform): Direct link to the TibCoin token information, styled to fit the new theme. This section now includes specific meme coin characteristics: anonymity, no team allocation, no presale, and a "fail launch" countdown to July 31st.
+        - Meme Tweet Generator (Goal: Engage/Create): A new interactive section powered by the Gemini API, allowing users to generate meme-style tweets related to TibCoin. This uses LLM text generation to create dynamic, fun content.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Comic Neue', cursive;
+            background-color: #FFFBEB; /* Light yellow for meme vibe */
+            color: #2c3e50;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 0.05em;
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+            padding: 0.5rem 0;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #FF69B4; /* Hot pink hover */
+            border-bottom-color: #FF69B4;
+        }
+        .dropdown:hover .dropdown-menu {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .dropdown-menu {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1000;
+            border-radius: 0.5rem;
+            padding: 0.5rem 0;
+            top: 100%;
+            left: 0;
+        }
+        .dropdown-menu a {
+            color: #2c3e50;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.2s;
+        }
+        .dropdown-menu a:hover {
+            background-color: #f0f4f8;
+        }
+        .tab-button {
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Bouncy transition */
+        }
+        .tab-button.active {
+            background-color: #FF69B4; /* Hot pink active */
+            color: white;
+            box-shadow: 0 6px 12px -2px rgb(255 105 180 / 0.5), 0 3px 6px -3px rgb(255 105 180 / 0.4);
+            transform: scale(1.05);
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55), box-shadow 0.3s; /* Bouncy transition */
+            border: 4px dashed #9333ea; /* Purple dashed border */
+            transform: rotate(1deg); /* Slight rotation */
+        }
+        .card:hover {
+            transform: translateY(-8px) rotate(-1deg); /* More pronounced hover */
+            box-shadow: 0 12px 20px -3px rgb(0 0 0 / 0.2), 0 6px 10px -4px rgb(0 0 0 / 0.15);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .flow-box {
+            border: 2px solid #FFD700; /* Gold border */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            background-color: #FFFAF0; /* Light peach */
+            min-width: 120px;
+        }
+        .arrow {
+            font-size: 2.5rem; /* Larger arrow */
+            color: #FF69B4; /* Hot pink arrow */
+            align-self: center;
+        }
+        .block {
+            border: 2px solid;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            background-color: white;
+            position: relative;
+        }
+        .block-link {
+            position: absolute;
+            content: '';
+            height: 2px;
+            width: 2rem;
+            background-color: #FFD700; /* Gold link */
+            left: -2rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        #pow-animation .nonce {
+            animation: nonce-flicker 0.05s infinite alternate; /* Faster flicker */
+            color: #00FFFF; /* Cyan nonce */
+            font-weight: bold;
+        }
+        @keyframes nonce-flicker {
+            0% { opacity: 0.7; transform: scale(0.98); }
+            100% { opacity: 1; transform: scale(1.02); }
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #FFD700 0%, #FF69B4 100%); /* Gold to Hot Pink */
+            color: white; /* Ensure text is visible */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3); /* Text shadow for pop */
+        }
+        .hero-section h1 {
+            color: #4B0082; /* Deep purple for title */
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+        }
+        .hero-section p {
+            color: #f0f0f0;
+        }
+        .btn-primary {
+            background-color: #00FFFF; /* Cyan button */
+            color: #2c3e50; /* Dark text on cyan */
+            font-weight: bold;
+            padding: 0.75rem 2.5rem; /* Larger padding */
+            border-radius: 9999px; /* Pill shape */
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Bouncy transition */
+            box-shadow: 0 6px 12px -2px rgb(0 255 255 / 0.4), 0 3px 6px -3px rgb(0 255 255 / 0.3);
+            border: 2px solid #4B0082; /* Purple border */
+        }
+        .btn-primary:hover {
+            background-color: #00BFFF; /* Slightly darker cyan on hover */
+            box-shadow: 0 12px 20px -3px rgb(0 255 255 / 0.5), 0 6px 10px -4px rgb(0 255 255 / 0.4);
+            transform: translateY(-5px) scale(1.05); /* More pronounced bounce */
+        }
+        footer {
+            background-color: #4B0082; /* Deep purple footer */
+            color: #FFD700; /* Gold text */
+        }
+        #countdown-timer {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            color: #FF69B4; /* Hot pink */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+        #countdown-timer span {
+            display: inline-block;
+            margin: 0 0.5rem;
+            background-color: #FFFAF0;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: 2px solid #FFD700;
+        }
+        #countdown-message {
+            font-family: 'Comic Neue', cursive;
+            font-size: 1.5rem;
+            color: #E74C3C; /* Red for "fail" */
+            margin-top: 1rem;
+            text-align: center;
+            font-weight: bold;
+        }
+        .llm-feature-card {
+            background-color: #E0FFFF; /* Light Cyan */
+            border: 4px solid #4B0082; /* Deep Purple border */
+            transform: rotate(-2deg); /* A bit more tilt */
+            box-shadow: 0 8px 16px -2px rgba(0,0,0,0.2);
+        }
+        .llm-feature-card:hover {
+            transform: translateY(-10px) rotate(2deg); /* Opposite tilt on hover */
+            box-shadow: 0 15px 25px -5px rgba(0,0,0,0.3);
+        }
+        .llm-button {
+            background-color: #FFD700; /* Gold button */
+            color: #4B0082; /* Deep Purple text */
+            font-weight: bold;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 4px 6px -1px rgb(255 215 0 / 0.4), 0 2px 4px -2px rgb(255 215 0 / 0.3);
+            border: 2px solid #FF69B4; /* Hot Pink border */
+        }
+        .llm-button:hover {
+            background-color: #FFC400; /* Darker gold */
+            box-shadow: 0 8px 12px -2px rgb(255 215 0 / 0.6), 0 4px 6px -4px rgb(255 215 0 / 0.5);
+            transform: translateY(-3px) scale(1.02);
+        }
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #FF69B4; /* Hot pink spinner */
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <main>
+        <section id="intro" class="py-20 md:py-32 hero-section">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-4xl md:text-6xl font-bold tracking-tight">
+                    TibCoin: A Peer-to-Peer Electronic Cash System
+                </h1>
+                <p class="mt-6 max-w-3xl mx-auto text-lg md:text-xl">
+                    Get ready for the future of digital cash! This interactive journey unpacks the TibCoin White Paper – where memes meet money, creating a truly decentralized payment system.
+                </p>
+                <div class="mt-10">
+                    <a href="#problem" class="btn-primary">
+                        Dive into the Madness!
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="problem" class="py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">The Big Problem & Our Epic Solution!</h2>
+                    <p class="mt-4 text-lg text-gray-600">Why TibCoin exists? To banish boring banks and double-spending woes!</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="card p-8 rotate-1">
+                        <h3 class="text-2xl font-bold text-red-600">The Problem: Double-Spending Disaster!</h3>
+                        <p class="mt-4 text-gray-600">
+                            Imagine sending a digital coin, then sending it again! Without a central boss (like a bank), who stops the digital shenanigans? Traditional systems are stuck in the past, full of fees and slow pokes. Not cool!
+                        </p>
+                    </div>
+                    <div class="card p-8 -rotate-1">
+                        <h3 class="text-2xl font-bold text-green-600">The Solution: The Blockchain Bonanza!</h3>
+                        <p class="mt-4 text-gray-600">
+                            TibCoin drops a public ledger (the blockchain!) where everyone sees everything. Transactions are bundled into "blocks," and each block needs a super-hard puzzle solved (Proof-of-Work). Once it's in, it's set in stone – no take-backs!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="how-it-works" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">How It Works: The Digital Magic!</h2>
+                    <p class="mt-4 text-lg text-gray-600">Uncover the secrets behind TibCoin's awesome power!</p>
+                </div>
+
+                <div class="mb-8 flex justify-center space-x-2 md:space-x-4">
+                    <button class="tab-button active px-4 py-2 rounded-full font-semibold" onclick="showTab('transactions')">1. Transactions</button>
+                    <button class="tab-button px-4 py-2 rounded-full font-semibold" onclick="showTab('pow')">2. Proof-of-Work</button>
+                    <button class="tab-button px-4 py-2 rounded-full font-semibold" onclick="showTab('network')">3. Network</button>
+                </div>
+
+                <div id="transactions-content" class="tab-content">
+                    <div class="card p-8">
+                        <h3 class="text-2xl font-bold mb-4 text-center">Your Coin: A Chain of Awesome Signatures!</h3>
+                        <p class="text-center text-gray-600 mb-8">Every time TibCoin changes hands, it gets a fresh digital signature, creating an unbreakable chain of ownership. So cool!</p>
+                        <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
+                            <div class="flow-box">Owner 1's Public Key</div>
+                            <div class="arrow">&#10142;</div>
+                            <div class="flow-box">Hash(Tx1 + Owner 2's Key)<br/><span class="text-xs text-gray-500">Signed by Owner 1</span></div>
+                            <div class="arrow">&#10142;</div>
+                            <div class="flow-box">Hash(Tx2 + Owner 3's Key)<br/><span class="text-xs text-gray-500">Signed by Owner 2</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="pow-content" class="tab-content hidden">
+                    <div class="card p-8">
+                         <h3 class="text-2xl font-bold mb-4 text-center">Proof-of-Work: The Ultimate Security Guard!</h3>
+                        <p class="text-center text-gray-600 mb-8">"Miners" race to solve tricky puzzles to add new transaction blocks. This brainy effort keeps the ledger safe from sneaky hackers!</p>
+                        <div id="pow-animation" class="flex flex-col items-center">
+                            <div class="flex items-center justify-center space-x-8 mb-8">
+                                <div class="text-center">
+                                    <h4 class="font-bold">Transaction Pool</h4>
+                                    <div class="p-4 bg-gray-100 rounded-lg mt-2">Tx, Tx, Tx...</div>
+                                </div>
+                                <div class="arrow">&#10142;</div>
+                                <div class="text-center">
+                                    <h4 class="font-bold">Mining Process</h4>
+                                    <div class="p-4 bg-yellow-100 rounded-lg mt-2">
+                                        Hash(Block Data + <span class="nonce font-mono">12345</span>)
+                                    </div>
+                                </div>
+                                <div class="arrow">&#10142;</div>
+                                 <div class="text-center">
+                                    <h4 class="font-bold">Valid Hash Found!</h4>
+                                    <div class="p-4 bg-green-100 rounded-lg mt-2 font-mono text-sm break-all">0000...abc123</div>
+                                </div>
+                            </div>
+                            <h4 class="font-bold mb-4">The Longest Chain is the Truth (and the Funniest!)</h4>
+                            <div class="flex items-center">
+                                <div class="block border-purple-300">Block N-2</div>
+                                <div class="block border-purple-300 relative"><div class="block-link"></div>Block N-1</div>
+                                <div class="block border-pink-500 relative"><div class="block-link"></div>Block N</div>
+                                <div id="new-block" class="block border-cyan-500 relative opacity-0 transition-opacity duration-1000"><div class="block-link"></div>New Block!</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="network-content" class="tab-content hidden">
+                    <div class="card p-8">
+                        <h3 class="text-2xl font-bold mb-4 text-center">A Decentralized Network: Everyone's Invited!</h3>
+                        <p class="text-center text-gray-600 mb-8">TibCoin runs on a cool peer-to-peer network with simple, awesome rules.</p>
+                        <ol class="list-decimal list-inside space-y-4 max-w-2xl mx-auto text-gray-700">
+                            <li>New transactions zoom across to all nodes.</li>
+                            <li>Each node gathers new transactions into a block.</li>
+                            <li>Every node tries to find the super-hard proof-of-work for its block.</li>
+                            <li>Found it! A node broadcasts its awesome block to everyone.</li>
+                            <li>Nodes only accept blocks if all transactions are legit and not spent already.</li>
+                            <li>Nodes show their approval by building the *next* block on top of the accepted one!</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="security" class="py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Security Simulator: Can You Break It? (Probably Not!)</h2>
+                    <p class="mt-4 text-lg text-gray-600">TibCoin's security is like a fortress, guarded by honest miners! Play with the slider to see how hard it is for a bad guy to catch up.</p>
+                </div>
+                <div class="card p-8">
+                    <div class="chart-container">
+                        <canvas id="securityChart"></canvas>
+                    </div>
+                    <div class="mt-8 max-w-xl mx-auto">
+                        <label for="attacker-power" class="block text-sm font-medium text-gray-700">Attacker's CPU Power (%)</label>
+                        <input type="range" id="attacker-power" min="1" max="99" value="30" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-2">
+                        <div class="flex justify-between text-xs text-gray-500 mt-1">
+                            <span>1% (Weak Sauce!)</span>
+                            <span id="attacker-power-value" class="font-bold text-pink-600">30%</span>
+                            <span>99% (Almost There, Buddy!)</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-4 text-center">
+                            This chart shows the chance of a sneaky attacker pulling off a "51% attack" (where they control most of the network). Watch how the probability drops faster than a hot potato as more blocks are added! It's practically impossible!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Key Features & Super Cool Concepts!</h2>
+                    <p class="mt-4 text-lg text-gray-600">Beyond the main stuff, TibCoin has even more awesome tricks up its sleeve!</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="card p-6 rotate-1">
+                        <h3 class="text-xl font-bold">Incentive: Get Rich (or Mine Trying)!</h3>
+                        <p class="mt-2 text-gray-600">Miners get sweet TibCoins and transaction fees for their hard work. It's like a treasure hunt, but everyone wins (if they're honest)!</p>
+                    </div>
+                    <div class="card p-6 -rotate-1">
+                        <h3 class="text-xl font-bold">Privacy: Who's That Masked TibCoiner?</h3>
+                        <p class="mt-2 text-gray-600">Transactions are public, but your identity stays a secret! It's like a digital masquerade ball – everyone sees the dance, but not the dancers!</p>
+                    </div>
+                    <div class="card p-6 rotate-1">
+                        <h3 class="text-xl font-bold">Reclaiming Disk Space: Tidy Up Time!</h3>
+                        <p class="mt-2 text-gray-600">Once transactions are super old and buried deep, we can magically shrink the blockchain to save space. No digital clutter here!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TibCoin Token Section -->
+        <section id="token-tib" class="py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">TibCoin Token: $TIB - The Coin of Legends!</h2>
+                    <p class="mt-4 text-lg text-gray-600">Meet $TIB, the digital gold that powers the TibCoin universe! It's not just a coin, it's a lifestyle!</p>
+                </div>
+                <div class="card p-8 text-center text-gray-500">
+                    <p class="mb-4">The TibCoin ($TIB) is the super-duper native cryptocurrency of the TibCoin network. It's what we use to give props (rewards!) to our awesome miners for keeping the network safe and sound with their Proof-of-Work magic. Plus, it covers transaction fees so everything runs smooth like butter. $TIB is designed for predictable fun and distributed fairly – no central big boss here!</p>
+                    <p class="mb-4 font-bold text-gray-700">
+                        🤫 Anonymous Devs: We're so anonymous, even we don't know who we are!
+                        <br>
+                        🚫 No Team Allocation: All $TIB for the people, by the people!
+                        <br>
+                        🚀 No Presale: Fair launch for everyone! Get ready to ape in!
+                    </p>
+                    <div id="countdown-container" class="mt-8">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">"Fail Launch" Countdown!</h3>
+                        <div id="countdown-timer">
+                            <span id="days">00</span> Days
+                            <span id="hours">00</span> Hours
+                            <span id="minutes">00</span> Minutes
+                            <span id="seconds">00</span> Seconds
+                        </div>
+                        <p id="countdown-message" class="hidden">It's here! The fail launch is complete! Much wow, very launch!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- New LLM-powered Meme Tweet Generator Section -->
+        <section id="meme-generator" class="py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">TibCoin Meme Lab ✨</h2>
+                    <p class="mt-4 text-lg text-gray-600">Unleash the power of AI to generate epic TibCoin tweets! Just tell us your vibe.</p>
+                </div>
+                <div class="card p-8 llm-feature-card">
+                    <h3 class="text-2xl font-bold mb-4 text-center">Generate a Meme-tastic Tweet!</h3>
+                    <div class="flex flex-col items-center space-y-4">
+                        <textarea id="tweet-prompt" class="w-full max-w-md p-3 border-4 border-purple-400 rounded-lg focus:outline-none focus:ring-4 focus:ring-pink-300 text-gray-700" rows="3" placeholder="Tell me what kind of tweet you want (e.g., 'TibCoin to the moon', 'Feeling bullish about TIB', 'Explain blockchain like I'm 5')..."></textarea>
+                        <button id="generate-tweet-btn" class="llm-button flex items-center justify-center space-x-2">
+                            <span>Generate Tweet!</span>
+                            <div id="loading-spinner" class="loading-spinner hidden"></div>
+                        </button>
+                        <div id="generated-tweet-output" class="w-full max-w-md p-4 bg-yellow-100 border-2 border-yellow-400 rounded-lg text-gray-800 text-center mt-4 hidden">
+                            <!-- Generated tweet will appear here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="font-bold text-lg">TibCoin: To the Moon! 🚀</p>
+            <p class="text-sm text-gray-400 mt-2">This project is for educational purposes to demonstrate the core concepts of blockchain technology. Much wow, very decentralized!</p>
+        </div>
+    </footer>
+
+    <script>
+        const tabs = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        function showTab(tabName) {
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.getAttribute('onclick').includes(tabName)) {
+                    tab.classList.add('active');
+                }
+            });
+            tabContents.forEach(content => {
+                content.classList.add('hidden');
+                if (content.id === `${tabName}-content`) {
+                    content.classList.remove('hidden');
+                }
+            });
+        }
+
+        let powAnimationInterval;
+        const nonceEl = document.querySelector('#pow-animation .nonce');
+        const newBlockEl = document.getElementById('new-block');
+
+        function startPowAnimation() {
+            powAnimationInterval = setInterval(() => {
+                nonceEl.textContent = Math.floor(Math.random() * 100000);
+            }, 50); /* Faster flicker */
+
+            setTimeout(() => {
+                clearInterval(powAnimationInterval);
+                nonceEl.textContent = '42781'; /* A static "found" nonce */
+                newBlockEl.classList.remove('opacity-0');
+            }, 3000);
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    startPowAnimation();
+                } else {
+                    clearInterval(powAnimationInterval);
+                    newBlockEl.classList.add('opacity-0');
+                }
+            });
+        }, { threshold: 0.5 });
+
+        observer.observe(document.getElementById('pow-animation'));
+
+        const securityChartCtx = document.getElementById('securityChart').getContext('2d');
+        let securityChart;
+
+        const attackerPowerSlider = document.getElementById('attacker-power');
+        const attackerPowerValue = document.getElementById('attacker-power-value');
+
+        function calculateAttackerProbability(q, p, z) {
+            if (q >= p) {
+                return Math.pow(q / p, z);
+            } else {
+                return 0; /* If honest nodes have more power, attacker probability of catching up is effectively 0 */
+            }
+        }
+
+        function updateChart() {
+            const attackerProb = parseInt(attackerPowerSlider.value) / 100;
+            attackerPowerValue.textContent = `${attackerPowerSlider.value}%`;
+            
+            const q = attackerProb;
+            const p = 1 - q;
+            
+            const labels = [];
+            const data = [];
+
+            for (let z = 0; z <= 20; z++) {
+                labels.push(z);
+                let prob = calculateAttackerProbability(q, p, z);
+                data.push(prob > 1 ? 1 : prob); /* Cap probability at 1 */
+            }
+
+            securityChart.data.labels = labels;
+            securityChart.data.datasets[0].data = data;
+            securityChart.data.datasets[0].label = `Attacker Probability (at ${attackerPowerSlider.value}% Power)`;
+            securityChart.update();
+        }
+        
+        function createChart() {
+            securityChart = new Chart(securityChartCtx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Attacker Probability',
+                        data: [],
+                        borderColor: '#FF69B4', /* Hot pink line */
+                        backgroundColor: 'rgba(255, 105, 180, 0.2)', /* Lighter hot pink fill */
+                        fill: true,
+                        tension: 0.4 /* Smoother line */
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 1.0,
+                            title: {
+                                display: true,
+                                text: 'Probability of Success',
+                                color: '#4B0082' /* Purple text */
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return (value * 100).toFixed(0) + '%';
+                                },
+                                color: '#2c3e50'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Number of Blocks Behind (z)',
+                                color: '#4B0082' /* Purple text */
+                            },
+                            ticks: {
+                                color: '#2c3e50'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += (context.parsed.y * 100).toFixed(2) + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        },
+                        legend: {
+                            labels: {
+                                color: '#2c3e50' /* Legend text color */
+                            }
+                        }
+                    }
+                }
+            });
+            updateChart();
+        }
+
+        attackerPowerSlider.addEventListener('input', updateChart);
+        
+        // Countdown Timer Logic
+        const launchDate = new Date('July 31, 2025 00:00:00 GMT+0700').getTime(); // Set to July 31, 2025, Bangkok time
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+        const countdownMessageEl = document.getElementById('countdown-message');
+        const countdownTimerEl = document.getElementById('countdown-timer');
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = launchDate - now;
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                countdownTimerEl.classList.add('hidden');
+                countdownMessageEl.classList.remove('hidden');
+                countdownMessageEl.textContent = "It's here! The fail launch is complete! Much wow, very launch!";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            daysEl.textContent = String(days).padStart(2, '0');
+            hoursEl.textContent = String(hours).padStart(2, '0');
+            minutesEl.textContent = String(minutes).padStart(2, '0');
+            secondsEl.textContent = String(seconds).padStart(2, '0');
+        }
+
+        const countdownInterval = setInterval(updateCountdown, 1000);
+        updateCountdown(); // Initial call to display immediately
+
+        // Gemini API Integration for Meme Tweet Generator
+        const generateTweetBtn = document.getElementById('generate-tweet-btn');
+        const tweetPromptInput = document.getElementById('tweet-prompt');
+        const generatedTweetOutput = document.getElementById('generated-tweet-output');
+        const loadingSpinner = document.getElementById('loading-spinner');
+
+        generateTweetBtn.addEventListener('click', async () => {
+            const promptText = tweetPromptInput.value.trim();
+            if (!promptText) {
+                generatedTweetOutput.textContent = "Please enter a prompt for your meme tweet!";
+                generatedTweetOutput.classList.remove('hidden');
+                return;
+            }
+
+            loadingSpinner.classList.remove('hidden');
+            generateTweetBtn.disabled = true;
+            generatedTweetOutput.classList.add('hidden');
+
+            try {
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: `Generate a short, funny, meme-style tweet about TibCoin ($TIB) or blockchain, based on the following idea: "${promptText}". Include meme coin jargon like 'to the moon', 'hodl', 'ape in', 'wen lambo', 'diamond hands', 'paper hands', 'degens', 'fud', 'bullish', 'bearish', 'rekt', 'wagmi', 'ngmi', 'much wow', 'very crypto'. Also include relevant emojis. Keep it under 280 characters.` }] });
+                const payload = { contents: chatHistory };
+                const apiKey = ""; // Canvas will provide this at runtime
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    generatedTweetOutput.textContent = text;
+                    generatedTweetOutput.classList.remove('hidden');
+                } else {
+                    generatedTweetOutput.textContent = "Oops! My brain is out of memes. Try a different prompt, fren!";
+                    generatedTweetOutput.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error("Error generating tweet:", error);
+                generatedTweetOutput.textContent = "Network error or API issue. Can't generate tweet right now. FUD detected!";
+                generatedTweetOutput.classList.remove('hidden');
+            } finally {
+                loadingSpinner.classList.add('hidden');
+                generateTweetBtn.disabled = false;
+            }
+        });
+
+        window.onload = () => {
+            createChart();
+            showTab('transactions'); /* Initialize with transactions tab active */
+        };
+
+    </script>
+</body>
+</html>
