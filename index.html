@@ -16,16 +16,18 @@
         - Transaction Chain (Goal: Organize): A visual flow diagram using styled HTML divs and arrows to represent the chain of digital signatures, with playful colors.
         - Proof-of-Work (Goal: Organize/Change): An animated HTML/CSS diagram shows a "nonce" changing, a hash being found, and a block being added to a chain, illustrating the process over time, with a more dynamic nonce animation.
         - Network Flow (Goal: Relationships): A simplified visual representation of nodes broadcasting transactions, built with HTML/CSS, maintaining clarity.
-        - Security Simulation (Goal: Inform/Compare): An interactive line chart (Chart.js) where users manipulate an input slider (Attacker's CPU Power) to see the probability of an attack change dynamically. The chart colors are updated to match the new vibrant palette. Justification: This is the most effective way to demonstrate the exponential security of the blockchain.
+        - Security Simulator (Goal: Inform/Compare): An interactive line chart (Chart.js) where users manipulate an input slider (Attacker's CPU Power) to see the probability of an attack change dynamically. The chart colors are updated to match the new vibrant palette. Justification: This is the most effective way to demonstrate the exponential security of the blockchain.
         - Key Features (Goal: Inform): A card-based grid layout (HTML/Tailwind) to present secondary concepts, now with a slightly tilted and bolder border for a meme aesthetic.
         - Token Section (Goal: Inform): Direct link to the TibCoin token information, styled to fit the new theme. This section now includes specific meme coin characteristics: anonymity, no team allocation, no presale.
-        - Meme Tweet Generator (Goal: Engage/Create): A new interactive section powered by the Gemini API, allowing users to generate meme-style tweets related to TibCoin. This uses LLM text generation to create dynamic, fun content.
+        - Meme Tweet Generator (Goal: Engage/Create): A new interactive section powered by the Gemini API, allowing users to generate meme-style tweets related to TibCoin. This uses LLM text generation to create dynamic, fun content, now ensuring @tibcoin_ and $TIB are always mentioned, and providing a "Tweet on X" button.
         - Why TibCoin? (Goal: Persuade/Inform): A dedicated section to highlight the unique selling points, styled with meme flair.
         - Roadmap (Goal: Inform/Trust): A placeholder for future development plans, essential for project legitimacy.
         - Community (Goal: Engage/Trust): A placeholder for community engagement, vital for meme coins, now updated with specific Twitter link.
         - Too Late for Bitcoin? (Goal: Persuade/Inform): A new section comparing Bitcoin's current status with TibCoin's potential, framed in a meme-friendly, opportunity-focused way.
         - Fail Launch Countdown (Goal: Engage/Inform): Moved to the top of the page for immediate attention, emphasizing the unique launch strategy.
         - Spinning TIB Logo (Goal: Attraction/Branding): Re-added the spinning "$TIB" logo with a new "meme-style" jiggle animation and vibrant colors to reinforce branding and add visual interest.
+        - Ape In Profit Calculator (Goal: Engage/Persuade): A new interactive calculator for hypothetical investment returns, directly appealing to the "moon" narrative.
+        - Mock Price Chart (Goal: Inform/Persuade): A new Chart.js line chart visualizing a "to the moon" price trajectory, reinforcing bullish sentiment.
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
@@ -532,6 +534,27 @@
 
         <div class="section-divider"></div>
 
+        <!-- Mock Price Chart Section -->
+        <section id="price-chart" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">TibCoin Price: To The Moon Trajectory! 🚀📈</h2>
+                    <p class="mt-4 text-lg text-gray-600">Witness the inevitable ascent of $TIB! This chart shows the future, probably. (Definitely not financial advice, just pure hopium!)</p>
+                </div>
+                <div class="card p-8">
+                    <div class="chart-container">
+                        <canvas id="priceChart"></canvas>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-4 text-center font-bold text-red-500">
+                        Disclaimer: This is a simulated chart for entertainment purposes only and does not reflect actual or guaranteed future price movements. Past performance is not indicative of future results. Do your own research (DYOR)!
+                    </p>
+                </div>
+            </div>
+        </section>
+        <!-- End Mock Price Chart Section -->
+
+        <div class="section-divider"></div>
+
         <section id="features" class="py-20 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
@@ -554,6 +577,39 @@
                 </div>
             </div>
         </section>
+
+        <div class="section-divider"></div>
+
+        <!-- Ape In Profit Calculator Section -->
+        <section id="profit-calculator" class="py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Ape In! Profit Calculator 💰</h2>
+                    <p class="mt-4 text-lg text-gray-600">Dreaming of that Lambo? See your potential gains if $TIB moons! (Not financial advice, just for fun, degens!)</p>
+                </div>
+                <div class="card p-8 llm-feature-card">
+                    <h3 class="text-2xl font-bold mb-4 text-center">Calculate Your Moonshot!</h3>
+                    <div class="flex flex-col items-center space-y-4">
+                        <div class="w-full max-w-md flex items-center space-x-4">
+                            <label for="investment-amount" class="text-lg font-bold text-gray-700 w-1/3 text-right">Invest ($):</label>
+                            <input type="number" id="investment-amount" class="w-2/3 p-3 border-4 border-purple-400 rounded-lg focus:outline-none focus:ring-4 focus:ring-pink-300 text-gray-700" value="100" min="1">
+                        </div>
+                        <div class="w-full max-w-md flex items-center space-x-4">
+                            <label for="multiplier" class="text-lg font-bold text-gray-700 w-1/3 text-right">Multiplier (X):</label>
+                            <input type="number" id="multiplier" class="w-2/3 p-3 border-4 border-purple-400 rounded-lg focus:outline-none focus:ring-4 focus:ring-pink-300 text-gray-700" value="100" min="1">
+                        </div>
+                        <button id="calculate-profit-btn" class="llm-button">
+                            <span>Show Me the Gains!</span>
+                        </button>
+                        <div id="profit-output" class="w-full max-w-md p-4 bg-yellow-100 border-2 border-yellow-400 rounded-lg text-gray-800 text-center mt-4 hidden">
+                            <p class="font-bold text-xl">Your $TIB could be worth: <span id="calculated-profit" class="text-green-600 text-2xl">$0.00</span> 🚀</p>
+                            <p class="text-sm mt-2">Wen Lambo?!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End Ape In Profit Calculator Section -->
 
         <div class="section-divider"></div>
 
@@ -590,6 +646,7 @@
                     <p class="mb-4">Phase 1: Launch & Meme Domination (Current)</p>
                     <p class="mb-4">Phase 2: Community Building & Degen Cultivation</p>
                     <p class="mb-4">Phase 3: Utility Exploration (Maybe a TibCoin game? Who knows!)</p>
+                    <p class="mb-4">Phase 4: Launch NFT Collection (TBA)</p>
                     <p class="font-bold text-gray-700">Disclaimer: Roadmap subject to change based on meme trends and community vibes. Not financial advice, just pure speculation!</p>
                 </div>
             </div>
@@ -633,6 +690,9 @@
                         <div id="generated-tweet-output" class="w-full max-w-md p-4 bg-yellow-100 border-2 border-yellow-400 rounded-lg text-gray-800 text-center mt-4 hidden">
                             <!-- Generated tweet will appear here -->
                         </div>
+                        <button id="tweet-on-x-btn" class="llm-button hidden">
+                            Tweet on X! 🐦
+                        </button>
                     </div>
                 </div>
             </div>
@@ -809,9 +869,96 @@
 
         attackerPowerSlider.addEventListener('input', updateChart);
         
+        // Mock Price Chart Logic
+        const priceChartCtx = document.getElementById('priceChart').getContext('2d');
+        let priceChart;
+
+        function createPriceChart() {
+            const labels = ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7', 'Day 8', 'Day 9', 'Day 10', 'Day 11', 'Day 12', 'Day 13', 'Day 14'];
+            const data = [0.000001, 0.0000015, 0.000003, 0.000008, 0.00002, 0.00005, 0.0001, 0.0002, 0.0005, 0.001, 0.002, 0.005, 0.01, 0.05]; // Exponential growth for meme coin
+
+            priceChart = new Chart(priceChartCtx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '$TIB Price (Simulated)',
+                        data: data,
+                        borderColor: '#00FFFF', /* Cyan line */
+                        backgroundColor: 'rgba(0, 255, 255, 0.1)', /* Light cyan fill */
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 5,
+                        pointBackgroundColor: '#FF69B4', /* Hot pink points */
+                        pointBorderColor: '#4B0082', /* Purple point border */
+                        pointHoverRadius: 7,
+                        pointHoverBackgroundColor: '#FFD700', /* Gold on hover */
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Price ($)',
+                                color: '#4B0082'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value.toFixed(6);
+                                },
+                                color: '#2c3e50'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Time',
+                                color: '#4B0082'
+                            },
+                            ticks: {
+                                color: '#2c3e50'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += '$' + context.parsed.y.toFixed(7);
+                                    }
+                                    return label;
+                                }
+                            }
+                        },
+                        legend: {
+                            labels: {
+                                color: '#2c3e50'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+
         // Countdown Timer Logic
         // Current date is July 24, 2025. 20 days from today is August 13, 2025.
-        const launchDate = new Date('August 13, 2025 00:00:00 GMT+0700').getTime();
+        const launchDate = new Date('August 13, 2025 00:00:00 GMT+0700').getTime(); 
         const daysEl = document.getElementById('days');
         const hoursEl = document.getElementById('hours');
         const minutesEl = document.getElementById('minutes');
@@ -845,27 +992,53 @@
         const countdownInterval = setInterval(updateCountdown, 1000);
         updateCountdown(); // Initial call to display immediately
 
+        // Ape In Profit Calculator Logic
+        const investmentAmountInput = document.getElementById('investment-amount');
+        const multiplierInput = document.getElementById('multiplier');
+        const calculateProfitBtn = document.getElementById('calculate-profit-btn');
+        const profitOutput = document.getElementById('profit-output');
+        const calculatedProfitSpan = document.getElementById('calculated-profit');
+
+        calculateProfitBtn.addEventListener('click', () => {
+            const investment = parseFloat(investmentAmountInput.value);
+            const multiplier = parseFloat(multiplierInput.value);
+
+            if (isNaN(investment) || isNaN(multiplier) || investment <= 0 || multiplier <= 0) {
+                calculatedProfitSpan.textContent = "Invalid input, fren. Try again!";
+                profitOutput.classList.remove('hidden');
+                return;
+            }
+
+            const potentialProfit = investment * multiplier;
+            calculatedProfitSpan.textContent = `$${potentialProfit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            profitOutput.classList.remove('hidden');
+        });
+
+
         // Gemini API Integration for Meme Tweet Generator
         const generateTweetBtn = document.getElementById('generate-tweet-btn');
         const tweetPromptInput = document.getElementById('tweet-prompt');
         const generatedTweetOutput = document.getElementById('generated-tweet-output');
         const loadingSpinner = document.getElementById('loading-spinner');
+        const tweetOnXBtn = document.getElementById('tweet-on-x-btn');
 
         generateTweetBtn.addEventListener('click', async () => {
             const promptText = tweetPromptInput.value.trim();
             if (!promptText) {
                 generatedTweetOutput.textContent = "Please enter a prompt for your meme tweet!";
                 generatedTweetOutput.classList.remove('hidden');
+                tweetOnXBtn.classList.add('hidden'); // Hide tweet button if no prompt
                 return;
             }
 
             loadingSpinner.classList.remove('hidden');
             generateTweetBtn.disabled = true;
             generatedTweetOutput.classList.add('hidden');
+            tweetOnXBtn.classList.add('hidden'); // Hide tweet button while generating
 
             try {
                 let chatHistory = [];
-                chatHistory.push({ role: "user", parts: [{ text: `Generate a short, funny, meme-style tweet about TibCoin ($TIB) or blockchain, based on the following idea: "${promptText}". Include meme coin jargon like 'to the moon', 'hodl', 'ape in', 'wen lambo', 'diamond hands', 'paper hands', 'degens', 'fud', 'bullish', 'bearish', 'rekt', 'wagmi', 'ngmi', 'much wow', 'very crypto'. Also include relevant emojis. Keep it under 280 characters.` }] });
+                chatHistory.push({ role: "user", parts: [{ text: `Generate a short, funny, meme-style tweet about TibCoin ($TIB) or blockchain, based on the following idea: "${promptText}". Always include @tibcoin_ and $TIB. Include meme coin jargon like 'to the moon', 'hodl', 'ape in', 'wen lambo', 'diamond hands', 'paper hands', 'degens', 'fud', 'bullish', 'bearish', 'rekt', 'wagmi', 'ngmi', 'much wow', 'very crypto'. Also include relevant emojis. Keep it under 280 characters.` }] });
                 const payload = { contents: chatHistory };
                 const apiKey = ""; // Canvas will provide this at runtime
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
@@ -883,6 +1056,11 @@
                     const text = result.candidates[0].content.parts[0].text;
                     generatedTweetOutput.textContent = text;
                     generatedTweetOutput.classList.remove('hidden');
+                    tweetOnXBtn.classList.remove('hidden'); // Show tweet button
+                    tweetOnXBtn.onclick = () => {
+                        const tweetText = encodeURIComponent(text);
+                        window.open(`https://twitter.com/intent/tweet?text=${tweetText}`, '_blank');
+                    };
                 } else {
                     generatedTweetOutput.textContent = "Oops! My brain is out of memes. Try a different prompt, fren!";
                     generatedTweetOutput.classList.remove('hidden');
@@ -899,6 +1077,7 @@
 
         window.onload = () => {
             createChart();
+            createPriceChart(); // Initialize the new price chart
             showTab('transactions'); /* Initialize with transactions tab active */
         };
 
