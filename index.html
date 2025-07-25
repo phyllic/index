@@ -28,7 +28,7 @@
         - Spinning TIB Logo (Goal: Attraction/Branding): Re-added the spinning "$TIB" logo with a new "meme-style" jiggle animation and vibrant colors to reinforce branding and add visual interest.
         - Ape In Profit Calculator (Goal: Engage/Persuade): A new interactive calculator for hypothetical investment returns, directly appealing to the "moon" narrative.
         - Mock Price Chart (Goal: Inform/Persuade): A new Chart.js line chart visualizing a "to the moon" price trajectory, reinforcing bullish sentiment.
-        - Community Check-in (Goal: Engage/Community): A new section with a counter and button allowing users to "check in," now with a one-click-per-user restriction using local storage.
+        - Community Check-in (Goal: Engage/Community): Removed as requested.
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
@@ -358,22 +358,6 @@
             </div>
         </div>
         <!-- End Spinning TIB Logo Coin -->
-
-        <!-- New Check-In Section -->
-        <section id="check-in-section" class="py-10" style="background-color: #0A0A1A;">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <div class="card p-8 -rotate-1" style="background-color: #1A1A33; border: 4px dashed #FFD700;">
-                    <h3 class="text-2xl font-bold text-E0FFFF mb-4">TibCoin Army Check-In! 🫡</h3>
-                    <p class="text-lg text-E0E0E0 mb-4">See how many degens are ready for the moon mission!</p>
-                    <div id="checked-in-count" class="font-bold text-5xl text-FF69B4 mb-6 text-shadow-lg" style="text-shadow: 0 0 10px rgba(255,105,180,0.8);">0</div>
-                    <button id="check-in-btn" class="llm-button">
-                        <span>CHECK IN!</span>
-                    </button>
-                    <p id="check-in-message" class="text-sm text-green-400 mt-2 hidden">Checked in! WAGMI!</p>
-                </div>
-            </div>
-        </section>
-        <!-- End New Check-In Section -->
 
         <div class="section-divider"></div>
 
@@ -734,7 +718,142 @@
         </div>
     </footer>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Firebase global variables (provided by Canvas environment)
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        let app;
+        let db;
+        let auth;
+        let currentUserId = null;
+
+        // Initialize Firebase and authenticate
+        async function initializeFirebaseAndAuth() {
+            try {
+                app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        currentUserId = user.uid;
+                        console.log("Authenticated with Firebase. User ID:", currentUserId);
+                        // Now that we have a user ID, we can update check-in display and set up listeners
+                        setupCheckInFeature();
+                    } else {
+                        // Sign in anonymously if no user is found
+                        if (initialAuthToken) {
+                            await signInWithCustomToken(auth, initialAuthToken);
+                        } else {
+                            await signInAnonymously(auth);
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error("Error initializing Firebase:", error);
+                document.getElementById('check-in-message').textContent = "Error initializing check-in. Please try again later.";
+                document.getElementById('check-in-message').classList.remove('hidden');
+            }
+        }
+
+        // Check-in Counter Logic
+        const checkInCountEl = document.getElementById('checked-in-count');
+        const checkInBtn = document.getElementById('check-in-btn');
+        const checkInMessageEl = document.getElementById('check-in-message');
+
+        async function setupCheckInFeature() {
+            if (!db || !currentUserId) {
+                console.warn("Firestore or User ID not available yet for check-in feature setup.");
+                return;
+            }
+
+            const globalCountRef = doc(db, `artifacts/${appId}/public/data/tibcoin_checkins/global_count`);
+            const userStatusRef = doc(db, `artifacts/${appId}/users/${currentUserId}/tibcoin_checkins/user_status`);
+
+            // Listen for real-time updates to the global count
+            onSnapshot(globalCountRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    checkInCountEl.textContent = (data.totalCheckedInUsers || 0).toLocaleString();
+                } else {
+                    // Initialize if document doesn't exist
+                    setDoc(globalCountRef, { totalCheckedInUsers: 0 }, { merge: true })
+                        .catch(e => console.error("Error initializing global count doc:", e));
+                    checkInCountEl.textContent = '0';
+                }
+            }, (error) => {
+                console.error("Error listening to global count:", error);
+                checkInMessageEl.textContent = "Error loading global count.";
+                checkInMessageEl.classList.remove('hidden');
+            });
+
+            // Check user's individual check-in status on load
+            try {
+                const userDocSnap = await getDoc(userStatusRef);
+                if (userDocSnap.exists() && userDocSnap.data().hasCheckedIn) {
+                    checkInBtn.disabled = true;
+                    checkInBtn.textContent = "ALREADY CHECKED IN!";
+                    checkInBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                    checkInMessageEl.textContent = "You've already checked in, degen! Welcome aboard!";
+                    checkInMessageEl.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error("Error checking user status:", error);
+                checkInMessageEl.textContent = "Error checking your check-in status.";
+                checkInMessageEl.classList.remove('hidden');
+            }
+
+            checkInBtn.addEventListener('click', async () => {
+                if (checkInBtn.disabled) return; // Prevent multiple clicks while processing
+
+                checkInBtn.disabled = true; // Disable immediately to prevent double click
+                checkInBtn.textContent = "CHECKING IN...";
+                checkInBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+                try {
+                    const currentUserStatus = await getDoc(userStatusRef);
+                    if (currentUserStatus.exists() && currentUserStatus.data().hasCheckedIn) {
+                        checkInMessageEl.textContent = "You've already checked in, degen! Welcome aboard!";
+                        checkInMessageEl.classList.remove('hidden');
+                        console.log("User already checked in (Firestore confirmed).");
+                    } else {
+                        // Increment global count
+                        await updateDoc(globalCountRef, {
+                            totalCheckedInUsers: increment(1)
+                        });
+                        // Mark user as checked in
+                        await setDoc(userStatusRef, { hasCheckedIn: true }, { merge: true });
+
+                        checkInMessageEl.textContent = "Checked in! WAGMI!";
+                        checkInMessageEl.classList.remove('hidden');
+                        setTimeout(() => {
+                            checkInMessageEl.classList.add('hidden');
+                        }, 2000);
+                        console.log("User checked in successfully via Firestore.");
+                    }
+                } catch (error) {
+                    console.error("Error during check-in:", error);
+                    checkInMessageEl.textContent = "Error during check-in. Try again!";
+                    checkInMessageEl.classList.remove('hidden');
+                    // Re-enable button if an error occurred and it wasn't due to already checked in status
+                    // This check is important to avoid re-enabling if the user was already checked in.
+                    const finalUserStatusCheck = await getDoc(userStatusRef);
+                    if (!finalUserStatusCheck.exists() || !finalUserStatusCheck.data().hasCheckedIn) {
+                         checkInBtn.disabled = false;
+                         checkInBtn.textContent = "CHECK IN!";
+                         checkInBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                    }
+                }
+            });
+        }
+
+        // General UI/Chart setup functions (from previous versions, kept as is)
         const tabs = document.querySelectorAll('.tab-button');
         const tabContents = document.querySelectorAll('.tab-content');
 
@@ -780,7 +899,14 @@
             });
         }, { threshold: 0.5 });
 
-        observer.observe(document.getElementById('pow-animation'));
+        // Observe the pow-animation section
+        document.addEventListener('DOMContentLoaded', () => {
+            const powAnimationSection = document.getElementById('pow-animation');
+            if (powAnimationSection) {
+                observer.observe(powAnimationSection);
+            }
+        });
+
 
         const securityChartCtx = document.getElementById('securityChart').getContext('2d');
         let securityChart;
@@ -819,6 +945,13 @@
         }
         
         function createChart() {
+            const securityChartCanvas = document.getElementById('securityChart');
+            if (!securityChartCanvas) {
+                console.error("Security chart canvas element not found!");
+                return; /* Exit if element is null */
+            }
+            const securityChartCtx = securityChartCanvas.getContext('2d');
+
             securityChart = new Chart(securityChartCtx, {
                 type: 'line',
                 data: {
@@ -906,6 +1039,13 @@
         let priceChart;
 
         function createPriceChart() {
+            const priceChartCanvas = document.getElementById('priceChart');
+            if (!priceChartCanvas) {
+                console.error("Price chart canvas element not found!");
+                return; /* Exit if element is null */
+            }
+            const priceChartCtx = priceChartCanvas.getContext('2d');
+
             const labels = ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7', 'Day 8', 'Day 9', 'Day 10', 'Day 11', 'Day 12', 'Day 13', 'Day 14'];
             const data = [0.000001, 0.0000015, 0.000003, 0.000008, 0.00002, 0.00005, 0.0001, 0.0002, 0.0005, 0.001, 0.002, 0.005, 0.01, 0.05]; // Exponential growth for meme coin
 
@@ -1114,49 +1254,13 @@
             }
         });
 
-        // Check-in Counter Logic
-        const checkInCountEl = document.getElementById('checked-in-count');
-        const checkInBtn = document.getElementById('check-in-btn');
-        const checkInMessageEl = document.getElementById('check-in-message');
-        let totalCheckedInUsers = parseInt(localStorage.getItem('tibcoinCheckedInUsers') || '0');
-        const hasCheckedIn = localStorage.getItem('tibcoinHasCheckedIn') === 'true';
-
-        function updateCheckInDisplay() {
-            checkInCountEl.textContent = totalCheckedInUsers.toLocaleString();
-            if (hasCheckedIn) {
-                checkInBtn.disabled = true;
-                checkInBtn.textContent = "ALREADY CHECKED IN!";
-                checkInBtn.classList.add('opacity-50', 'cursor-not-allowed');
-                checkInMessageEl.textContent = "You've already checked in, degen! Welcome aboard!";
-                checkInMessageEl.classList.remove('hidden');
-            }
-        }
-
-        checkInBtn.addEventListener('click', () => {
-            if (!hasCheckedIn) {
-                totalCheckedInUsers++;
-                localStorage.setItem('tibcoinCheckedInUsers', totalCheckedInUsers);
-                localStorage.setItem('tibcoinHasCheckedIn', 'true');
-                console.log('localStorage - tibcoinCheckedInUsers set to:', localStorage.getItem('tibcoinCheckedInUsers')); // Debugging log
-                console.log('localStorage - tibcoinHasCheckedIn set to:', localStorage.getItem('tibcoinHasCheckedIn')); // Debugging log
-                updateCheckInDisplay();
-                checkInBtn.disabled = true;
-                checkInBtn.textContent = "ALREADY CHECKED IN!";
-                checkInBtn.classList.add('opacity-50', 'cursor-not-allowed');
-                checkInMessageEl.textContent = "Checked in! WAGMI!";
-                checkInMessageEl.classList.remove('hidden');
-                setTimeout(() => {
-                    checkInMessageEl.classList.add('hidden');
-                }, 2000); // Hide message after 2 seconds
-            }
-        });
-
-
-        window.onload = () => {
+        // This is the main window.onload function that orchestrates everything
+        window.onload = async () => {
+            await initializeFirebaseAndAuth(); // Initialize Firebase first
             createChart();
             createPriceChart(); // Initialize the new price chart
             showTab('transactions'); /* Initialize with transactions tab active */
-            updateCheckInDisplay(); // Display initial check-in count and check status
+            // The setupCheckInFeature is now called after authentication is ready within firebaseInit
         };
 
     </script>
