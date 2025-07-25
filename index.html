@@ -3,317 +3,272 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive TibCoin White Paper</title>
+    <title>TibCoin: The Future of Peer-to-Peer Electronic Memes</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Space Neon (Deep Purple, Electric Blue, Cyan, Hot Pink, Cosmic Gold Accents) -->
-    <!-- Application Structure Plan: The SPA is designed with a thematic, non-linear flow to maximize understanding. It starts with a high-level "Problem vs. Solution" to frame the context. The core is the "How It Works" section, using tabbed navigation to break down complex topics (Transactions, Proof-of-Work, Network) into digestible, visual steps. The highlight is the "Security Simulator," which turns the abstract mathematical formula from the paper into a tangible, interactive chart, allowing users to directly experience the core security principle. This structure was chosen over a linear chapter-by-chapter approach to be more engaging and to prioritize the understanding of key concepts through interaction rather than passive reading. The top navigation bar has been removed, making the page a continuous scroll experience, emphasizing the "single page" aspect. New sections like "Why TibCoin?", "Roadmap," and "Community" have been added to provide a more comprehensive and "legit" feel, while maintaining the meme aesthetic. A new section "Too Late for Bitcoin? What About TibCoin?!" has been added to address a common crypto investor question and position TibCoin as the next opportunity. The "Fair Launch" countdown has been moved to a prominent position directly after the hero section for immediate visibility. -->
-    <!-- Visualization & Content Choices: 
-        - Problem/Solution (Goal: Compare): A two-column layout using HTML/Tailwind to starkly contrast the old and new paradigms, now with more vibrant card styling.
-        - Transaction Chain (Goal: Organize): A visual flow diagram using styled HTML divs and arrows to represent the chain of digital signatures, with playful colors.
-        - Proof-of-Work (Goal: Organize/Change): An animated HTML/CSS diagram shows a "nonce" changing, a hash being found, and a block being added to a chain, illustrating the process over time, with a more dynamic nonce animation.
-        - Network Flow (Goal: Relationships): A simplified visual representation of nodes broadcasting transactions, built with HTML/CSS, maintaining clarity.
-        - Security Simulator (Goal: Inform/Compare): An interactive line chart (Chart.js) where users manipulate an input slider (Attacker's CPU Power) to see the probability of an attack change dynamically. The chart colors are updated to match the new vibrant palette. Justification: This is the most effective way to demonstrate the exponential security of the blockchain.
-        - Key Features (Goal: Inform): A card-based grid layout (HTML/Tailwind) to present secondary concepts, now with a slightly tilted and bolder border for a meme aesthetic.
-        - Token Section (Goal: Inform): Direct link to the TibCoin token information, styled to fit the new theme. This section now includes specific meme coin characteristics: anonymity, no team allocation, no presale.
-        - Meme Tweet Generator (Goal: Engage/Create): A new interactive section powered by the Gemini API, allowing users to generate meme-style tweets related to TibCoin. This uses LLM text generation to create dynamic, fun content, now ensuring @tibcoin_ and $TIB are always mentioned, and providing a "Tweet on X" button.
-        - Why TibCoin? (Goal: Persuade/Inform): A dedicated section to highlight the unique selling points, styled with meme flair.
-        - Roadmap (Goal: Inform/Trust): A placeholder for future development plans, essential for project legitimacy.
-        - Community (Goal: Engage/Trust): A placeholder for community engagement, vital for meme coins, now updated with specific Twitter link.
-        - Too Late for Bitcoin? (Goal: Persuade/Inform): A new section comparing Bitcoin's current status with TibCoin's potential, framed in a meme-friendly, opportunity-focused way.
-        - Fair Launch Countdown (Goal: Engage/Inform): Moved to the top of the page for immediate attention, emphasizing the unique launch strategy.
-        - Spinning TIB Logo (Goal: Attraction/Branding): Re-added the spinning "$TIB" logo with a new "meme-style" jiggle animation and vibrant colors to reinforce branding and add visual interest.
-        - Ape In Profit Calculator (Goal: Engage/Persuade): A new interactive calculator for hypothetical investment returns, directly appealing to the "moon" narrative.
-        - Mock Price Chart (Goal: Inform/Persuade): A new Chart.js line chart visualizing a "to the moon" price trajectory, reinforcing bullish sentiment.
-        - Community Check-in (Goal: Engage/Community): Removed as requested.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    
     <style>
-        body {
-            font-family: 'Comic Neue', cursive;
-            background-color: #0A0A1A; /* Deep space background */
-            color: #E0E0E0; /* Light gray for text */
-            background-image: radial-gradient(circle at 100% 150%, #4B0082 0%, transparent 20%), /* Deep Purple Nebula */
-                              radial-gradient(circle at 0% 150%, #FF00FF 0%, transparent 20%), /* Magenta Nebula */
-                              radial-gradient(circle at 70% 0%, #00FFFF 0%, transparent 20%), /* Cyan Nebula */
-                              radial-gradient(circle at 20% 0%, #FFD700 0%, transparent 20%); /* Gold Sparkle */
-            background-size: 800px 800px;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
+        :root {
+            --bg-color: #0D0B1A;
+            --primary-glow: #6A0DAD;
+            --secondary-glow: #00BFFF;
+            --accent-pink: #FF00FF;
+            --accent-cyan: #00FFFF;
+            --accent-gold: #FFD700;
         }
+
+        @keyframes background-scroll {
+            from { background-position: 0 0, 0 0, -1px -1px, -1px -1px; }
+            to { background-position: 0 0, 0 0, -41px -41px, -41px -41px; }
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #E0E0E0;
+            background-color: #0D0B1A;
+            background-image:
+                radial-gradient(circle at 100% 100%, rgba(106, 13, 173, 0.3), transparent 40%),
+                radial-gradient(circle at 0% 0%, rgba(0, 255, 255, 0.15), transparent 40%),
+                linear-gradient(rgba(0, 255, 255, 0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.07) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+            background-position: 0 0, 0 0, -1px -1px, -1px -1px;
+            animation: background-scroll 30s linear infinite;
+        }
+
         h1, h2, h3, h4 {
             font-family: 'Bebas Neue', sans-serif;
-            letter-spacing: 0.08em; /* More dramatic spacing */
-            color: #E0FFFF; /* Electric Cyan for titles */
-            text-shadow: 0 0 8px rgba(0,255,255,0.6), 0 0 15px rgba(0,255,255,0.4); /* Neon glow */
+            letter-spacing: 0.1em;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 8px var(--accent-cyan), 0 0 12px var(--accent-cyan);
         }
-        .nav-link {
-            transition: color 0.3s, border-bottom-color 0.3s;
-            border-bottom: 2px solid transparent;
-            padding: 0.5rem 0;
+        
+        .glass-card {
+            background: rgba(26, 26, 51, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background 0.3s, border 0.3s, transform 0.3s;
+            position: relative;
+            overflow: hidden;
         }
-        .nav-link:hover, .nav-link.active {
-            color: #FF69B4; /* Hot pink hover */
-            border-bottom-color: #FF69B4;
-        }
-        .dropdown:hover .dropdown-menu {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .dropdown-menu {
-            display: none;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+
+        .glass-card:before {
+            content: '';
             position: absolute;
-            background-color: #1A1A33; /* Darker background for dropdown */
-            min-width: 200px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.4);
-            z-index: 1000;
-            border-radius: 0.5rem;
-            padding: 0.5rem 0;
-            top: 100%;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: skewX(-25deg);
+            transition: left 0.6s;
+        }
+
+        .glass-card:hover:before {
+            left: 150%;
+        }
+
+        .glass-card:hover {
+            background: rgba(26, 26, 51, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px) scale(1.02);
+        }
+
+        .hero-section {
+            position: relative;
+            overflow: hidden;
+        }
+
+        #particle-container {
+            position: absolute;
+            top: 0;
             left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
         }
-        .dropdown-menu a {
-            color: #E0E0E0;
-            padding: 0.75rem 1rem;
-            text-decoration: none;
-            display: block;
-            transition: background-color 0.2s;
+
+        .particle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: float 20s infinite ease-in-out;
         }
-        .dropdown-menu a:hover {
-            background-color: #2A2A4A; /* Slightly lighter hover */
+
+        @keyframes float {
+            0% { transform: translateY(0); opacity: 1; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-100vh); opacity: 0; }
         }
-        .tab-button {
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Bouncy transition */
-            background-color: #2A2A4A; /* Darker base for tabs */
-            color: #E0E0E0;
-        }
-        .tab-button.active {
-            background-color: #FF69B4; /* Hot pink active */
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--accent-pink), var(--primary-glow));
             color: white;
-            box-shadow: 0 6px 12px -2px rgb(255 105 180 / 0.5), 0 3px 6px -3px rgb(255 105 180 / 0.4);
+            font-weight: bold;
+            padding: 0.75rem 2.5rem;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px var(--accent-pink);
+            border: 2px solid transparent;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 25px var(--accent-pink), 0 0 40px var(--primary-glow);
             transform: scale(1.05);
         }
-        .card {
-            background-color: rgba(26, 26, 51, 0.8); /* Semi-transparent dark card */
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55), box-shadow 0.3s; /* Bouncy transition */
-            border: 4px dashed #9333ea; /* Purple dashed border */
-            transform: rotate(1deg); /* Slight rotation */
-            color: #E0E0E0; /* Light text on dark card */
-        }
-        .card:hover {
-            transform: translateY(-8px) rotate(-1deg); /* More pronounced hover */
-            box-shadow: 0 12px 20px -3px rgb(0 0 0 / 0.2), 0 6px 10px -4px rgb(0 0 0 / 0.15);
-            border-color: #00FFFF; /* Cyan border on hover */
-        }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 300px;
-            max-height: 400px;
-        }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 400px;
-            }
-        }
-        .flow-box {
-            border: 2px solid #00FFFF; /* Cyan border */
-            padding: 1rem;
-            border-radius: 0.5rem;
-            text-align: center;
-            background-color: #1A1A33; /* Darker background */
-            min-width: 120px;
-            color: #E0E0E0;
-        }
-        .arrow {
-            font-size: 2.5rem; /* Larger arrow */
-            color: #FF69B4; /* Hot pink arrow */
-            align-self: center;
-        }
-        .block {
-            border: 2px solid;
-            padding: 0.5rem;
-            border-radius: 0.25rem;
-            background-color: #1A1A33; /* Darker background */
-            position: relative;
-            color: #E0E0E0;
-        }
-        .block-link {
-            position: absolute;
-            content: '';
-            height: 2px;
-            width: 2rem;
-            background-color: #FFD700; /* Gold link */
-            left: -2rem;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-        #pow-animation .nonce {
-            animation: nonce-flicker 0.05s infinite alternate; /* Faster flicker */
-            color: #00FFFF; /* Cyan nonce */
-            font-weight: bold;
-        }
-        @keyframes nonce-flicker {
-            0% { opacity: 0.7; transform: scale(0.98); }
-            100% { opacity: 1; transform: scale(1.02); }
-        }
-        .hero-section {
-            background: linear-gradient(135deg, #4B0082 0%, #0A0A1A 100%); /* Deep purple to dark space */
-            color: white; /* Ensure text is visible */
-            text-shadow: 0 0 10px rgba(255,255,255,0.4); /* White glow for text */
-            overflow: hidden; /* To contain the spinning coin */
-        }
-        .hero-section h1 {
-            color: #00FFFF; /* Electric Cyan for title */
-            text-shadow: 0 0 15px rgba(0,255,255,0.8), 0 0 25px rgba(0,255,255,0.5);
-        }
-        .hero-section p {
-            color: #E0E0E0;
-        }
-        .spinning-coin {
-            display: inline-block;
-            animation: spin 2s linear infinite;
-            font-size: 0.8em; /* Slightly smaller than text */
-            margin-left: 0.5em;
-        }
-        @keyframes spin {
-            0% { transform: rotateY(0deg); }
-            100% { transform: rotateY(360deg); }
-        }
-        .btn-primary {
-            background-color: #FF69B4; /* Hot Pink button */
-            color: white; /* White text on hot pink */
-            font-weight: bold;
-            padding: 0.75rem 2.5rem; /* Larger padding */
-            border-radius: 9999px; /* Pill shape */
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Bouncy transition */
-            box-shadow: 0 6px 12px -2px rgb(255 105 180 / 0.5), 0 3px 6px -3px rgb(255 105 180 / 0.3);
-            border: 2px solid #00FFFF; /* Cyan border */
-        }
-        .btn-primary:hover {
-            background-color: #FF00FF; /* Magenta on hover */
-            box-shadow: 0 12px 20px -3px rgb(255 0 255 / 0.5), 0 6px 10px -4px rgb(255 0 255 / 0.4);
-            transform: translateY(-5px) scale(1.05); /* More pronounced bounce */
-        }
-        footer {
-            background-color: #0A0A1A; /* Deep space footer */
-            color: #00FFFF; /* Cyan text */
-            border-top: 2px solid #FFD700; /* Gold top border */
-        }
-        #countdown-timer {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 2.5rem;
-            color: #00FFFF; /* Cyan */
-            text-shadow: 0 0 8px rgba(0,255,255,0.6);
-            margin-top: 1.5rem;
-            text-align: center;
-        }
-        #countdown-timer span {
-            display: inline-block;
-            margin: 0 0.5rem;
-            background-color: #1A1A33; /* Darker background */
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            border: 2px solid #FF69B4; /* Hot Pink border */
-            color: #FFD700; /* Gold numbers */
-        }
-        #countdown-message {
-            font-family: 'Comic Neue', cursive;
-            font-size: 1.5rem;
-            color: #FF00FF; /* Magenta for "fail" */
-            margin-top: 1rem;
-            text-align: center;
-            font-weight: bold;
-        }
-        .llm-feature-card {
-            background-color: rgba(26, 26, 51, 0.8); /* Semi-transparent dark card */
-            border: 4px solid #FF00FF; /* Magenta border */
-            transform: rotate(-2deg); /* A bit more tilt */
-            box-shadow: 0 0 20px rgba(255,0,255,0.5); /* Magenta glow */
-            color: #E0E0E0;
-        }
-        .llm-feature-card:hover {
-            transform: translateY(-10px) rotate(2deg); /* Opposite tilt on hover */
-            box-shadow: 0 0 30px rgba(255,0,255,0.8);
-        }
-        .llm-button {
-            background-color: #FFD700; /* Gold button */
-            color: #4B0082; /* Deep Purple text */
-            font-weight: bold;
-            padding: 0.75rem 2rem;
-            border-radius: 9999px;
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            box-shadow: 0 4px 6px -1px rgb(255 215 0 / 0.4), 0 2px 4px -2px rgb(255 215 0 / 0.3);
-            border: 2px solid #FF69B4; /* Hot Pink border */
-        }
-        .llm-button:hover {
-            background-color: #FFC400; /* Darker gold */
-            box-shadow: 0 8px 12px -2px rgb(255 215 0 / 0.6), 0 4px 6px -4px rgb(255 215 0 / 0.5);
-            transform: translateY(-3px) scale(1.02);
-        }
-        .loading-spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            border-left-color: #FF69B4; /* Hot pink spinner */
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .section-divider {
-            height: 8px;
-            background: linear-gradient(90deg, #FF69B4 0%, #00FFFF 50%, #FFD700 100%);
-            border-radius: 4px;
-            margin: 4rem auto;
-            width: 80%;
-            max-width: 600px;
-            box-shadow: 0 0 15px rgba(255,105,180,0.7); /* Pink glow for divider */
-        }
+        
         .tib-coin-logo {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 8rem; /* Large size */
-            display: inline-block;
-            margin: 2rem auto; /* Center it */
-            padding: 1rem;
-            /* New vibrant gradient for meme style */
-            background: linear-gradient(45deg, #FF00FF, #00FFFF, #FFFF00); /* Magenta, Cyan, Yellow */
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            border-radius: 50%; /* Make it round */
-            width: 200px;
-            height: 200px;
+            font-size: 8rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            /* Bolder, more meme-like border */
-            border: 10px solid #FF69B4; /* Hot Pink */
-            outline: 5px solid #4B0082; /* Deep Purple outline */
-            box-shadow: 0 0 30px #FF00FF, 0 0 60px #00FFFF; /* Stronger neon glow */
-            /* Glitchy text shadow */
-            text-shadow: 5px 5px 0px #FF69B4, -5px -5px 0px #00FFFF, 0 0 10px rgba(255,255,255,0.8);
-            animation: meme-jiggle 0.5s infinite alternate; /* New meme-style animation */
+            width: 200px;
+            height: 200px;
+            margin: 2rem auto;
+            background: linear-gradient(45deg, var(--accent-pink), var(--accent-cyan), var(--accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            border-radius: 50%;
+            border: 10px solid;
+            border-image-slice: 1;
+            border-image-source: linear-gradient(to right, var(--accent-pink), var(--accent-cyan));
+            box-shadow: 0 0 30px var(--accent-pink), 0 0 60px var(--accent-cyan), inset 0 0 20px rgba(0,0,0,0.5);
+            animation: logo-spin 10s linear infinite;
         }
-        @keyframes meme-jiggle {
-            0% { transform: scale(1) rotate(0deg); }
-            25% { transform: scale(1.05) rotate(2deg); }
-            50% { transform: scale(1) rotate(-2deg); }
-            75% { transform: scale(1.05) rotate(2deg); }
-            100% { transform: scale(1) rotate(0deg); }
+
+        @keyframes logo-spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .section-divider {
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-pink) 0%, var(--accent-cyan) 50%, var(--accent-gold) 100%);
+            border-radius: 2px;
+            margin: 5rem auto;
+            width: 50%;
+            max-width: 400px;
+            box-shadow: 0 0 15px rgba(255,105,180,0.5);
+        }
+
+        .tab-button {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #E0E0E0;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button.active {
+            background: var(--accent-pink);
+            color: white;
+            border-color: var(--accent-pink);
+            box-shadow: 0 0 15px var(--accent-pink);
+        }
+        
+        .llm-button {
+            background-color: var(--accent-gold);
+            color: var(--bg-color);
+            font-weight: bold;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px var(--accent-gold);
+        }
+        .llm-button:hover {
+            box-shadow: 0 0 25px var(--accent-gold);
+            transform: scale(1.05);
+        }
+        .llm-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .loading-spinner-small {
+             width: 20px;
+             height: 20px;
+             border: 2px solid rgba(0,0,0,0.3);
+             border-top-color: #0D0B1A;
+             border-radius: 50%;
+             animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+
+        /* FAQ Accordion Styles */
+        .faq-item .faq-question {
+            cursor: pointer;
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background-color 0.3s;
+        }
+        .faq-item .faq-question:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        .faq-item .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+            padding: 0 1.5rem;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 200px; /* Adjust as needed */
+            padding: 1.5rem;
+        }
+        .faq-item .faq-toggle {
+            transition: transform 0.3s;
+        }
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        /* Interactive Roadmap Styles */
+        .roadmap-timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-image: linear-gradient(var(--primary-glow), var(--accent-cyan));
+            border-radius: 2px;
+        }
+        .roadmap-item {
+            cursor: pointer;
+        }
+        .roadmap-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+            opacity: 0;
+        }
+        .roadmap-item.active .roadmap-content {
+            max-height: 300px;
+            opacity: 1;
+        }
+        .roadmap-dot {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .roadmap-item.active .roadmap-dot {
+            transform: scale(1.5);
+            box-shadow: 0 0 15px var(--accent-cyan);
+        }
+
+        /* Globe Canvas */
+        #globe-container {
+            height: 500px;
+            cursor: grab;
+        }
+        #globe-canvas {
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
@@ -321,90 +276,58 @@
 
     <main>
         <section id="intro" class="py-20 md:py-32 hero-section">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h1 class="text-4xl md:text-6xl font-bold tracking-tight">
-                    TibCoin: A Peer-to-Peer Electronic Cash System <span class="spinning-coin">🪙</span>
+            <div id="particle-container"></div>
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-5xl md:text-7xl font-bold tracking-tight">
+                    TibCoin: The Evolution of Digital Cash
                 </h1>
-                <p class="mt-6 max-w-3xl mx-auto text-lg md:text-xl">
-                    Get ready for the future of digital cash! This interactive journey unpacks the TibCoin White Paper – where memes meet money, creating a truly decentralized payment system. Much wow, very crypto!
+                <p class="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-gray-300">
+                    A peer-to-peer electronic cash system, reimagined. This interactive white paper explores the core principles of a truly decentralized, secure, and meme-powered financial network.
                 </p>
-                <div class="mt-10">
-                    <!-- Removed the "Dive into the Madness!" button -->
-                </div>
             </div>
         </section>
 
-        <!-- Moved Countdown Timer Section -->
-        <section id="top-countdown" class="py-10" style="background-color: #1A1A33;">
+        <section id="top-countdown" class="py-12">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <div class="card p-8 rotate-1" style="background-color: #0A0A1A; border: 4px dashed #00FFFF;">
-                    <h3 class="text-2xl font-bold text-E0FFFF mb-4">"Fair Launch" Countdown! Don't Miss the Chaos!</h3>
-                    <div id="countdown-timer">
-                        <span id="days">00</span> Days
-                        <span id="hours">00</span> Hours
-                        <span id="minutes">00</span> Minutes
-                        <span id="seconds">00</span> Seconds
+                <div class="glass-card p-8">
+                    <h3 class="text-3xl font-bold text-white mb-4">"Fair Launch" Countdown</h3>
+                    <div id="countdown-timer" class="text-4xl md:text-5xl">
+                        <span id="days">00</span><span class="text-lg text-gray-400">d</span>
+                        <span id="hours">00</span><span class="text-lg text-gray-400">h</span>
+                        <span id="minutes">00</span><span class="text-lg text-gray-400">m</span>
+                        <span id="seconds">00</span><span class="text-lg text-gray-400">s</span>
                     </div>
-                    <p id="countdown-message" class="hidden">It's here! The fair launch is complete! Much wow, very launch!</p>
+                    <p id="countdown-message" class="hidden text-2xl text-green-400">The Fair Launch is Complete! Welcome to the new era!</p>
                 </div>
             </div>
         </section>
-        <!-- End Moved Countdown Timer Section -->
 
-        <!-- Spinning TIB Logo Coin -->
         <div class="flex justify-center items-center py-10">
             <div class="tib-coin-logo">
                 $TIB
             </div>
         </div>
-        <!-- End Spinning TIB Logo Coin -->
 
         <div class="section-divider"></div>
 
-        <section id="why-tibcoin" class="py-20" style="background-color: #0A0A1A;">
+        <section id="why-tibcoin" class="py-20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Why TibCoin? Because We're Different! ✨</h2>
-                    <p class="mt-4 text-lg text-E0E0E0">Not just another coin, TibCoin is built on pure decentralized vibes and community power!</p>
+                    <h2 class="text-4xl font-bold tracking-tight sm:text-5xl">Why TibCoin?</h2>
+                    <p class="mt-4 text-lg text-gray-300">Engineered for decentralization, fairness, and community.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                    <div class="card p-6 rotate-2">
-                        <h3 class="text-xl font-bold text-purple-400 mb-2">Anon Devs, Much Trust!</h3>
-                        <p class="text-E0E0E0">Our team is so anonymous, we're basically ninjas. This means no central points of failure, just pure, unadulterated decentralization!</p>
+                    <div class="glass-card p-6">
+                        <h3 class="text-2xl font-bold text-purple-400 mb-2">Anonymous Founders</h3>
+                        <p class="text-gray-300">No central authority or point of failure. True decentralization from day one.</p>
                     </div>
-                    <div class="card p-6 -rotate-2">
-                        <h3 class="text-xl font-bold text-cyan-400 mb-2">Fair Launch, No Whales!</h3>
-                        <p class="text-E0E0E0">No presales, no team allocations, no sneaky early birds. Everyone gets to ape in at the same time. This is the way!</p>
-                    </p>
+                    <div class="glass-card p-6">
+                        <h3 class="text-2xl font-bold text-cyan-400 mb-2">Equitable Launch</h3>
+                        <p class="text-gray-300">No presales, no team allocations. A level playing field for every participant.</p>
                     </div>
-                    <div class="card p-6 rotate-2">
-                        <h3 class="text-xl font-bold text-pink-400 mb-2">Community Driven, WAGMI!</h3>
-                        <p class="text-E0E0E0">TibCoin is powered by YOU, the degens and diamond hands! Your memes, your energy, your future. We Are All Gonna Make It!</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="section-divider"></div>
-
-        <section id="too-late" class="py-20" style="background-color: #1A1A33;">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Too Late for Bitcoin? What About TibCoin?! 🤯</h2>
-                    <p class="mt-4 text-lg text-E0E0E0">Feeling like you missed the BTC rocket? Don't FOMO, TibCoin is here for the next moonshot!</p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="card p-8 rotate-1">
-                        <h3 class="text-2xl font-bold text-gray-400">Bitcoin: The OG, But... 👴</h3>
-                        <p class="mt-4 text-E0E0E0">
-                            Bitcoin's cool, sure. But it's already done its 10,000x. The early days are long gone. Transaction fees? Sometimes higher than your grandma's grocery bill. And let's be real, are you really gonna buy a whole BTC now? NGMI if you wait for another miracle.
-                        </p>
-                    </div>
-                    <div class="card p-8 -rotate-1">
-                        <h3 class="text-2xl font-bold text-green-400">TibCoin: The Fresh New Meme! 🌱</h3>
-                        <p class="mt-4 text-E0E0E0">
-                            TibCoin is the fresh start, the clean slate, the diamond in the rough! Low market cap, high meme potential. This is where the real degens find their alpha. Get in early, stack those $TIBs, and prepare for the ride of your life. Wen Lambo? Soon, fren, soon!
-                        </p>
+                    <div class="glass-card p-6">
+                        <h3 class="text-2xl font-bold text-pink-400 mb-2">Community Governed</h3>
+                        <p class="text-gray-300">The future of TibCoin is in the hands of its holders. Your voice, your network.</p>
                     </div>
                 </div>
             </div>
@@ -412,24 +335,16 @@
 
         <div class="section-divider"></div>
 
-        <section id="problem" class="py-20" style="background-color: #0A0A1A;">
+        <!-- NEW INTERACTIVE GLOBE SECTION -->
+        <section id="globe" class="py-20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">The Big Problem & Our Epic Solution!</h2>
-                    <p class="mt-4 text-lg text-E0E0E0">Why TibCoin exists? To banish boring banks and double-spending woes!</p>
+                    <h2 class="text-4xl font-bold tracking-tight sm:text-5xl">Global Network Visualizer</h2>
+                    <p class="mt-4 text-lg text-gray-300">Visualizing the decentralized TibCoin network in real-time.</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="card p-8 rotate-1">
-                        <h3 class="text-2xl font-bold text-red-400">The Problem: Double-Spending Disaster!</h3>
-                        <p class="mt-4 text-E0E0E0">
-                            Imagine sending a digital coin, then sending it again! Without a central boss (like a bank), who stops the digital shenanigans? Traditional systems are stuck in the past, full of fees and slow pokes. Not cool!
-                        </p>
-                    </div>
-                    <div class="card p-8 -rotate-1">
-                        <h3 class="text-2xl font-bold text-green-400">The Solution: The Blockchain Bonanza!</h3>
-                        <p class="mt-4 text-E0E0E0">
-                            TibCoin drops a public ledger (the blockchain!) where everyone sees everything. Transactions are bundled into "blocks," and each block needs a super-hard puzzle solved (Proof-of-Work). Once it's in, it's set in stone – no take-backs!
-                        </p>
+                <div class="glass-card p-4">
+                    <div id="globe-container">
+                        <canvas id="globe-canvas"></canvas>
                     </div>
                 </div>
             </div>
@@ -437,79 +352,121 @@
 
         <div class="section-divider"></div>
 
-        <section id="how-it-works" class="py-20" style="background-color: #1A1A33;">
+        <section id="tokenomics" class="py-20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">How It Works: The Digital Magic!</h2>
-                    <p class="mt-4 text-lg text-E0E0E0">Uncover the secrets behind TibCoin's awesome power!</p>
+                    <h2 class="text-4xl font-bold tracking-tight sm:text-5xl">Tokenomics</h2>
+                    <p class="mt-4 text-lg text-gray-300">A transparent and fair distribution model.</p>
                 </div>
-
-                <div class="mb-8 flex justify-center space-x-2 md:space-x-4">
-                    <button class="tab-button active px-4 py-2 rounded-full font-semibold" onclick="showTab('transactions')">1. Transactions</button>
-                    <button class="tab-button px-4 py-2 rounded-full font-semibold" onclick="showTab('pow')">2. Proof-of-Work</button>
-                    <button class="tab-button px-4 py-2 rounded-full font-semibold" onclick="showTab('network')">3. Network</button>
-                </div>
-
-                <div id="transactions-content" class="tab-content">
-                    <div class="card p-8">
-                        <h3 class="text-2xl font-bold mb-4 text-center">Your Coin: A Chain of Awesome Signatures!</h3>
-                        <p class="text-center text-E0E0E0 mb-8">Every time TibCoin changes hands, it gets a fresh digital signature, creating an unbreakable chain of ownership. So cool!</p>
-                        <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
-                            <div class="flow-box" style="border-color: #FF69B4; background-color: #0A0A1A;">Owner 1's Public Key</div>
-                            <div class="arrow">&#10142;</div>
-                            <div class="flow-box" style="border-color: #FF69B4; background-color: #0A0A1A;">Hash(Tx1 + Owner 2's Key)<br/><span class="text-xs text-gray-400">Signed by Owner 1</span></div>
-                            <div class="arrow">&#10142;</div>
-                            <div class="flow-box" style="border-color: #FF69B4; background-color: #0A0A1A;">Hash(Tx2 + Owner 3's Key)<br/><span class="text-xs text-gray-400">Signed by Owner 2</span></div>
+                <div class="glass-card p-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div class="relative w-full max-w-xs mx-auto">
+                            <canvas id="tokenomicsChart"></canvas>
+                        </div>
+                        <div>
+                            <h3 class="text-3xl font-bold text-white mb-6">100% FAIR LAUNCH</h3>
+                            <ul class="space-y-4">
+                                <li class="flex items-start">
+                                    <span class="text-green-400 mr-3 mt-1">&#10004;</span>
+                                    <span><strong class="text-white">NO TEAM ALLOCATION:</strong> The developers hold no tokens, ensuring a truly community-centric project.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-green-400 mr-3 mt-1">&#10004;</span>
+                                    <span><strong class="text-white">NO PRESALE OR IDO:</strong> Everyone has the same opportunity to acquire $TIB from the moment of launch.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-green-400 mr-3 mt-1">&#10004;</span>
+                                    <span><strong class="text-white">NO INSIDERS:</strong> The playing field is level. Success is determined by the community, not by early investors.</span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <div id="pow-content" class="tab-content hidden">
-                    <div class="card p-8">
-                         <h3 class="text-2xl font-bold mb-4 text-center">Proof-of-Work: The Ultimate Security Guard!</h3>
-                        <p class="text-center text-E0E0E0 mb-8">"Miners" race to solve tricky puzzles to add new transaction blocks. This brainy effort keeps the ledger safe from sneaky hackers!</p>
-                        <div id="pow-animation" class="flex flex-col items-center">
-                            <div class="flex items-center justify-center space-x-8 mb-8">
-                                <div class="text-center">
-                                    <h4 class="font-bold text-E0FFFF">Transaction Pool</h4>
-                                    <div class="p-4 rounded-lg mt-2" style="background-color: #0A0A1A; border: 2px solid #00FFFF;">Tx, Tx, Tx...</div>
-                                </div>
-                                <div class="arrow">&#10142;</div>
-                                <div class="text-center">
-                                    <h4 class="font-bold text-E0FFFF">Mining Process</h4>
-                                    <div class="p-4 rounded-lg mt-2" style="background-color: #0A0A1A; border: 2px solid #FFD700;">
-                                        Hash(Block Data + <span class="nonce font-mono">12345</span>)
-                                    </div>
-                                </div>
-                                <div class="arrow">&#10142;</div>
-                                 <div class="text-center">
-                                    <h4 class="font-bold text-E0FFFF">Valid Hash Found!</h4>
-                                    <div class="p-4 rounded-lg mt-2 font-mono text-sm break-all" style="background-color: #0A0A1A; border: 2px solid #00FF00; color: #00FF00;">0000...abc123</div>
-                                </div>
+        <div class="section-divider"></div>
+
+        <section id="roadmap" class="py-20">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold tracking-tight sm:text-5xl">Interactive Roadmap</h2>
+                    <p class="mt-4 text-lg text-gray-300">Our journey to the moon and beyond. Click each phase to learn more.</p>
+                </div>
+                <div class="relative roadmap-timeline p-4">
+                    <!-- Item 1 -->
+                    <div class="roadmap-item mb-8" data-title="Phase 1: Launch & Meme Domination" data-details="Fair Launch on LAUNCH PAD, Liquidity Lock & Contract Renounce, Initial Meme Marketing Blitz" onclick="toggleRoadmap(this)">
+                        <div class="flex items-center">
+                            <div class="flex-1 text-right pr-8">
+                                <h3 class="text-2xl font-bold">Phase 1</h3>
                             </div>
-                            <h4 class="font-bold mb-4 text-E0FFFF">The Longest Chain is the Truth (and the Funniest!)</h4>
-                            <div class="flex items-center">
-                                <div class="block" style="border-color: #4B0082; background-color: #0A0A1A;">Block N-2</div>
-                                <div class="block relative" style="border-color: #4B0082; background-color: #0A0A1A;"><div class="block-link" style="background-color: #FFD700;"></div>Block N-1</div>
-                                <div class="block relative" style="border-color: #FF69B4; background-color: #0A0A1A;"><div class="block-link" style="background-color: #FFD700;"></div>Block N</div>
-                                <div id="new-block" class="block relative opacity-0 transition-opacity duration-1000" style="border-color: #00FFFF; background-color: #0A0A1A;"><div class="block-link" style="background-color: #FFD700;"></div>New Block!</div>
+                            <div class="roadmap-dot w-6 h-6 rounded-full bg-cyan-500 z-10"></div>
+                            <div class="flex-1 pl-8">
+                                <p class="text-lg text-gray-400">Launch & Meme Domination</p>
+                            </div>
+                        </div>
+                        <div class="roadmap-content text-center mt-4">
+                            <div class="glass-card p-4 inline-block">
+                                <p>&#8226; Fair Launch on LAUNCH PAD</p>
+                                <p>&#8226; Liquidity Lock & Contract Renounce</p>
+                                <p>&#8226; Initial Meme Marketing Blitz</p>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div id="network-content" class="tab-content hidden">
-                    <div class="card p-8">
-                        <h3 class="text-2xl font-bold mb-4 text-center">A Decentralized Network: Everyone's Invited!</h3>
-                        <p class="text-center text-E0E0E0 mb-8">TibCoin runs on a cool peer-to-peer network with simple, awesome rules.</p>
-                        <ol class="list-decimal list-inside space-y-4 max-w-2xl mx-auto text-E0E0E0">
-                            <li>New transactions zoom across to all nodes.</li>
-                            <li>Each node gathers new transactions into a block.</li>
-                            <li>Every node tries to find the super-hard proof-of-work for its block.</li>
-                            <li>Found it! A node broadcasts its awesome block to everyone.</li>
-                            <li>Nodes only accept blocks if all transactions are legit and not spent already.</li>
-                            <li>Nodes show their approval by building the *next* block on top of the accepted one!</li>
-                        </ol>
+                    <!-- Item 2 -->
+                    <div class="roadmap-item mb-8" data-title="Phase 2: Community & Cultivation" data-details="1,000 Holders Milestone, CoinGecko & CoinMarketCap Listing, Community Meme Contests" onclick="toggleRoadmap(this)">
+                        <div class="flex items-center">
+                            <div class="flex-1 text-right pr-8">
+                                <h3 class="text-2xl font-bold">Phase 2</h3>
+                            </div>
+                            <div class="roadmap-dot w-6 h-6 rounded-full bg-cyan-500 z-10"></div>
+                            <div class="flex-1 pl-8">
+                                <p class="text-lg text-gray-400">Community & Cultivation</p>
+                            </div>
+                        </div>
+                        <div class="roadmap-content text-center mt-4">
+                            <div class="glass-card p-4 inline-block">
+                                <p>&#8226; 1,000 Holders Milestone</p>
+                                <p>&#8226; CoinGecko & CoinMarketCap Listing</p>
+                                <p>&#8226; Community Meme Contests</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Item 3 -->
+                    <div class="roadmap-item mb-8" data-title="Phase 3: Utility & Expansion" data-details="First CEX Listing, TibCoin NFT Collection, Partnership Announcements" onclick="toggleRoadmap(this)">
+                        <div class="flex items-center">
+                            <div class="flex-1 text-right pr-8">
+                                <h3 class="text-2xl font-bold">Phase 3</h3>
+                            </div>
+                            <div class="roadmap-dot w-6 h-6 rounded-full bg-cyan-500 z-10"></div>
+                            <div class="flex-1 pl-8">
+                                <p class="text-lg text-gray-400">Utility & Expansion</p>
+                            </div>
+                        </div>
+                        <div class="roadmap-content text-center mt-4">
+                            <div class="glass-card p-4 inline-block">
+                                <p>&#8226; First CEX Listing</p>
+                                <p>&#8226; TibCoin NFT Collection</p>
+                                <p>&#8226; Partnership Announcements</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Item 4 -->
+                    <div class="roadmap-item mb-8" data-title="Phase 4: Launch NFT" data-details="TBA" onclick="toggleRoadmap(this)">
+                        <div class="flex items-center">
+                            <div class="flex-1 text-right pr-8">
+                                <h3 class="text-2xl font-bold">Phase 4</h3>
+                            </div>
+                            <div class="roadmap-dot w-6 h-6 rounded-full bg-cyan-500 z-10"></div>
+                            <div class="flex-1 pl-8">
+                                <p class="text-lg text-gray-400">Launch NFT</p>
+                            </div>
+                        </div>
+                        <div class="roadmap-content text-center mt-4">
+                            <div class="glass-card p-4 inline-block">
+                                <p>&#8226; TBA</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -517,27 +474,59 @@
 
         <div class="section-divider"></div>
 
-        <section id="security" class="py-20" style="background-color: #0A0A1A;">
+        <section id="faq" class="py-20">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold tracking-tight sm:text-5xl">Frequently Asked Questions</h2>
+                    <p class="mt-4 text-lg text-gray-300">Your questions, answered.</p>
+                </div>
+                <div class="glass-card">
+                    <div class="faq-container">
+                        <!-- FAQ Item 1 -->
+                        <div class="faq-item">
+                            <div class="faq-question flex justify-between items-center" onclick="toggleFaq(this)">
+                                <h4 class="text-xl font-bold text-white">How do I buy TibCoin?</h4>
+                                <div class="faq-toggle text-cyan-400 text-2xl font-thin">+</div>
+                            </div>
+                            <div class="faq-answer">
+                                <p class="text-gray-300">TibCoin will be available for purchase on LAUNCH PAD upon launch. You will need a compatible crypto wallet (like MetaMask or Trust Wallet) and Ethereum (ETH) to swap for $TIB. A detailed guide will be posted on our official channels at launch.</p>
+                            </div>
+                        </div>
+                        <!-- FAQ Item 2 -->
+                        <div class="faq-item">
+                            <div class="faq-question flex justify-between items-center" onclick="toggleFaq(this)">
+                                <h4 class="text-xl font-bold text-white">What are the risks?</h4>
+                                <div class="faq-toggle text-cyan-400 text-2xl font-thin">+</div>
+                            </div>
+                            <div class="faq-answer">
+                                <p class="text-gray-300">Cryptocurrency, especially meme coins, is highly volatile and speculative. The value of TibCoin can fluctuate significantly. Never invest more than you are willing to lose. Please do your own research (DYOR).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="section-divider"></div>
+
+        <section id="security" class="py-20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Security Simulator: Can You Break It? (Probably Not!)</h2>
-                    <p class="mt-4 text-lg text-E0E0E0">TibCoin's security is like a fortress, guarded by honest miners! Play with the slider to see how hard it is for a bad guy to catch up.</p>
+                    <h2 class="text-4xl font-bold tracking-tight sm:text-5xl">Network Security Simulator</h2>
+                    <p class="mt-4 text-lg text-gray-300">The blockchain's security is probabilistic. See for yourself how an attacker's chances diminish exponentially.</p>
                 </div>
-                <div class="card p-8">
-                    <div class="chart-container">
+                <div class="glass-card p-8">
+                    <div class="chart-container h-[400px]">
                         <canvas id="securityChart"></canvas>
                     </div>
                     <div class="mt-8 max-w-xl mx-auto">
-                        <label for="attacker-power" class="block text-sm font-medium text-E0E0E0">Attacker's CPU Power (%)</label>
-                        <input type="range" id="attacker-power" min="1" max="99" value="30" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer mt-2">
+                        <label for="attacker-power" class="block text-sm font-medium text-white">Attacker's Network Share (%)</label>
+                        <input type="range" id="attacker-power" min="1" max="49" value="30" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer mt-2">
                         <div class="flex justify-between text-xs text-gray-400 mt-1">
-                            <span>1% (Weak Sauce!)</span>
-                            <span id="attacker-power-value" class="font-bold text-pink-400">30%</span>
-                            <span>99% (Almost There, Buddy!)</span>
+                            <span>1% (Negligible)</span>
+                            <span id="attacker-power-value" class="font-bold text-pink-400 text-lg">30%</span>
+                            <span>49% (High Risk)</span>
                         </div>
-                        <p class="text-sm text-gray-400 mt-4 text-center">
-                            This chart shows the chance of a sneaky attacker pulling off a "51% attack" (where they control most of the network). Watch how the probability drops faster than a hot potato as more blocks are added! It's practically impossible!
-                        </p>
                     </div>
                 </div>
             </div>
@@ -545,586 +534,211 @@
 
         <div class="section-divider"></div>
 
-        <!-- Mock Price Chart Section -->
-        <section id="price-chart" class="py-20" style="background-color: #1A1A33;">
+        <section id="price-chart" class="py-20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">TibCoin Price: To The Moon Trajectory! 🚀📈</h2>
-                    <p class="mt-4 text-lg text-E0E0E0">Witness the inevitable ascent of $TIB! This chart shows the future, probably. (Definitely not financial advice, just pure hopium!)</p>
+                    <h2 class="text-4xl font-bold tracking-tight sm:text-5xl">Simulated Market Trajectory</h2>
+                    <p class="mt-4 text-lg text-gray-300">Visualizing potential growth based on network adoption models.</p>
                 </div>
-                <div class="card p-8">
-                    <div class="chart-container">
+                <div class="glass-card p-8">
+                    <div class="chart-container h-[400px]">
                         <canvas id="priceChart"></canvas>
                     </div>
-                    <p class="text-sm text-center font-bold text-red-400 mt-4">
-                        Disclaimer: This is a simulated chart for entertainment purposes only and does not reflect actual or guaranteed future price movements. Past performance is not indicative of future results. Do your own research (DYOR)!
+                     <p class="text-sm text-center font-bold text-yellow-400 mt-4">
+                        Disclaimer: This is a simulated chart for illustrative purposes only. Not financial advice.
                     </p>
                 </div>
             </div>
         </section>
-        <!-- End Mock Price Chart Section -->
-
+        
         <div class="section-divider"></div>
-
-        <section id="features" class="py-20" style="background-color: #0A0A1A;">
+        
+        <section id="profit-calculator" class="py-20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Key Features & Super Cool Concepts!</h2>
-                    <p class="mt-4 text-lg text-E0E0E0">Beyond the main stuff, TibCoin has even more awesome tricks up its sleeve!</p>
+                    <h2 class="text-4xl font-bold tracking-tight sm:text-5xl">Growth Calculator</h2>
+                    <p class="mt-4 text-lg text-gray-300">Model potential returns based on your own speculation.</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="card p-6 rotate-1">
-                        <h3 class="text-xl font-bold">Incentive: Get Rich (or Mine Trying)!</h3>
-                        <p class="mt-2 text-E0E0E0">Miners get sweet TibCoins and transaction fees for their hard work. It's like a treasure hunt, but everyone wins (if they're honest)!</p>
-                    </div>
-                    <div class="card p-6 -rotate-1">
-                        <h3 class="text-xl font-bold">Privacy: Who's That Masked TibCoiner?</h3>
-                        <p class="mt-2 text-E0E0E0">Transactions are public, but your identity stays a secret! It's like a digital masquerade ball – everyone sees the dance, but not the dancers!</p>
-                    </div>
-                    <div class="card p-6 rotate-1">
-                        <h3 class="text-xl font-bold">Reclaiming Disk Space: Tidy Up Time!</h3>
-                        <p class="mt-2 text-E0E0E0">Once transactions are super old and buried deep, we can magically shrink the blockchain to save space. No digital clutter here!</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="section-divider"></div>
-
-        <!-- Ape In Profit Calculator Section -->
-        <section id="profit-calculator" class="py-20" style="background-color: #1A1A33;">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Ape In! Profit Calculator 💰</h2>
-                    <p class="mt-4 text-lg text-E0E0E0">Dreaming of that Lambo? See your potential gains if $TIB moons! (Not financial advice, just for fun, degens!)</p>
-                </div>
-                <div class="card p-8 llm-feature-card">
-                    <h3 class="text-2xl font-bold mb-4 text-center">Calculate Your Moonshot!</h3>
-                    <div class="flex flex-col items-center space-y-4">
-                        <div class="w-full max-w-md flex items-center space-x-4">
-                            <label for="investment-amount" class="text-lg font-bold text-E0E0E0 w-1/3 text-right">Invest ($):</label>
-                            <input type="number" id="investment-amount" class="w-2/3 p-3 border-4 border-purple-400 rounded-lg focus:outline-none focus:ring-4 focus:ring-pink-300 text-E0E0E0 bg-gray-800" value="100" min="1">
+                <div class="glass-card p-8">
+                    <h3 class="text-3xl font-bold mb-6 text-center">Calculate Potential Value</h3>
+                    <div class="flex flex-col items-center space-y-6">
+                        <div class="w-full max-w-md">
+                            <label for="investment-amount" class="text-lg font-bold text-white">Initial Investment ($):</label>
+                            <input type="number" id="investment-amount" class="w-full mt-2 p-3 border-2 border-purple-400 rounded-lg focus:outline-none focus:ring-4 focus:ring-pink-300 text-white bg-black bg-opacity-20" value="100" min="1">
                         </div>
-                        <div class="w-full max-w-md flex items-center space-x-4">
-                            <label for="multiplier" class="text-lg font-bold text-E0E0E0 w-1/3 text-right">Multiplier (X):</label>
-                            <input type="number" id="multiplier" class="w-2/3 p-3 border-4 border-purple-400 rounded-lg focus:outline-none focus:ring-4 focus:ring-pink-300 text-E0E0E0 bg-gray-800" value="100" min="1">
+                        <div class="w-full max-w-md">
+                            <label for="multiplier" class="text-lg font-bold text-white">Growth Multiple (X):</label>
+                            <input type="number" id="multiplier" class="w-full mt-2 p-3 border-2 border-purple-400 rounded-lg focus:outline-none focus:ring-4 focus:ring-pink-300 text-white bg-black bg-opacity-20" value="100" min="1">
                         </div>
-                        <button id="calculate-profit-btn" class="llm-button">
-                            <span>Show Me the Gains!</span>
+                        <button id="calculate-profit-btn" class="btn-primary">
+                            <span>Calculate</span>
                         </button>
-                        <div id="profit-output" class="w-full max-w-md p-4 bg-yellow-100 border-2 border-yellow-400 rounded-lg text-gray-800 text-center mt-4 hidden" style="background-color: #0A0A1A; border-color: #FFD700; color: #E0E0E0;">
-                            <p class="font-bold text-xl">Your $TIB could be worth: <span id="calculated-profit" class="text-green-400 text-2xl">$0.00</span> 🚀</p>
-                            <p class="text-sm mt-2">Wen Lambo?!</p>
+                        <div id="profit-output" class="w-full max-w-md p-4 border-2 border-green-400 rounded-lg text-center mt-4 hidden">
+                            <p class="font-bold text-xl text-white">Potential Future Value: <span id="calculated-profit" class="text-green-400 text-2xl">$0.00</span></p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        <!-- End Ape In Profit Calculator Section -->
 
         <div class="section-divider"></div>
 
-        <!-- TibCoin Token Section -->
-        <section id="token-tib" class="py-20" style="background-color: #0A0A1A;">
+        <section id="community" class="py-20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">TibCoin Token: $TIB - The Coin of Legends!</h2>
-                    <p class="mt-4 text-lg text-E0E0E0">Meet $TIB, the digital gold that powers the TibCoin universe! It's not just a coin, it's a lifestyle!</p>
+                    <h2 class="text-4xl font-bold tracking-tight sm:text-5xl">Join the Community</h2>
+                    <p class="mt-4 text-lg text-gray-300">The TibCoin network is powered by its users. Connect with us.</p>
                 </div>
-                <div class="card p-8 text-center text-gray-400">
-                    <p class="mb-4">The TibCoin ($TIB) is the super-duper native cryptocurrency of the TibCoin network. It's what we use to give props (rewards!) to our awesome miners for keeping the network safe and sound with their Proof-of-Work magic. Plus, it covers transaction fees so everything runs smooth like butter. $TIB is designed for predictable fun and distributed fairly – no central big boss here!</p>
-                    <p class="mb-4 font-bold text-E0E0E0">
-                        🤫 Anonymous Devs: We're so anonymous, even we don't know who we are!
-                        <br>
-                        🚫 No Team Allocation: All $TIB for the people, by the people!
-                        <br>
-                        🚀 No Presale: Fair launch for everyone! Get ready to ape in!
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <div class="section-divider"></div>
-
-        <!-- Roadmap Section -->
-        <section id="roadmap" class="py-20" style="background-color: #1A1A33;">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Roadmap: Where We're Headed (To the Moon, Obviously!) 🌕</h2>
-                    <p class="mt-4 text-lg text-E0E0E0">Our journey is just beginning, but here's a sneak peek at the epic path ahead for TibCoin!</p>
-                </div>
-                <div class="card p-8 text-center text-gray-400 rotate-1">
-                    <p class="mb-4">Phase 1: Launch & Meme Domination (Current)</p>
-                    <p class="mb-4">Phase 2: Community Building & Degen Cultivation</p>
-                    <p class="mb-4">Phase 3: Utility Exploration (Maybe a TibCoin game? Who knows!)</p>
-                    <p class="mb-4">Phase 4: Launch NFT Collection (TBA)</p>
-                    <p class="font-bold text-E0E0E0">Disclaimer: Roadmap subject to change based on meme trends and community vibes. Not financial advice, just pure speculation!</p>
-                </div>
-            </div>
-        </section>
-
-        <div class="section-divider"></div>
-
-        <!-- Community Section -->
-        <section id="community" class="py-20" style="background-color: #0A0A1A;">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Join the TibCoin Army! WAGMI! 💪</h2>
-                    <p class="mt-4 text-lg text-E0E0E0">Our community is the heart and soul of TibCoin. Don't be a paper hand, join the diamond hands!</p>
-                </div>
-                <div class="card p-8 text-center text-gray-400 -rotate-1">
-                    <p class="mb-4">Connect with fellow degens and enthusiasts!</p>
-                    <p class="mb-4 font-bold text-E0E0E0">Find us on:</p>
-                    <p class="mb-2">🐦 Twitter (X): <a href="https://twitter.com/tibcoin_" target="_blank" class="text-blue-400 hover:underline">@tibcoin_</a></p>
-                    <p class="mt-4">Let's spread the meme, one TibCoin at a time!</p>
-                </div>
-            </div>
-        </section>
-
-        <div class="section-divider"></div>
-
-        <!-- LLM-powered Meme Tweet Generator Section -->
-        <section id="meme-generator" class="py-20" style="background-color: #1A1A33;">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">TibCoin Meme Lab ✨</h2>
-                    <p class="mt-4 text-lg text-E0E0E0">Unleash the power of AI to generate epic TibCoin tweets! Just tell us your vibe.</p>
-                </div>
-                <div class="card p-8 llm-feature-card">
-                    <h3 class="text-2xl font-bold mb-4 text-center">Generate a Meme-tastic Tweet!</h3>
-                    <div class="flex flex-col items-center space-y-4">
-                        <textarea id="tweet-prompt" class="w-full max-w-md p-3 border-4 border-purple-400 rounded-lg focus:outline-none focus:ring-4 focus:ring-pink-300 text-E0E0E0 bg-gray-800" rows="3" placeholder="Tell me what kind of tweet you want (e.g., 'TibCoin to the moon', 'Feeling bullish about TIB', 'Explain blockchain like I'm 5')..."></textarea>
-                        <button id="generate-tweet-btn" class="llm-button flex items-center justify-center space-x-2">
-                            <span>Generate Tweet!</span>
-                            <div id="loading-spinner" class="loading-spinner hidden"></div>
-                        </button>
-                        <div id="generated-tweet-output" class="w-full max-w-md p-4 bg-yellow-100 border-2 border-yellow-400 rounded-lg text-gray-800 text-center mt-4 hidden" style="background-color: #0A0A1A; border-color: #FFD700; color: #E0E0E0;">
-                            <!-- Generated tweet will appear here -->
-                        </div>
-                        <button id="tweet-on-x-btn" class="llm-button hidden">
-                            Tweet on X! 🐦
-                        </button>
-                    </div>
+                <div class="glass-card p-8 text-center">
+                    <p class="mb-4 text-xl">Follow the official channel for updates and announcements.</p>
+                    <a href="https://twitter.com/tibcoin_" target="_blank" class="btn-primary inline-flex items-center space-x-2">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.71v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"/></svg>
+                        <span>Follow @tibcoin_ on X</span>
+                    </a>
                 </div>
             </div>
         </section>
 
     </main>
     
-    <footer class="bg-gray-800 text-white py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="font-bold text-lg">TibCoin: To the Moon! 🚀</p>
-            <p class="text-sm text-gray-400 mt-2">This project is for educational purposes to demonstrate the core concepts of blockchain technology. Much wow, very decentralized!</p>
+    <footer class="py-8 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400">
+            <p class="font-bold text-lg text-cyan-400">TibCoin: The Next Generation of Peer-to-Peer Technology.</p>
         </div>
     </footer>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // Firebase global variables (provided by Canvas environment)
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-
-        let app;
-        let db;
-        let auth;
-        let currentUserId = null;
-
-        // Initialize Firebase and authenticate
-        async function initializeFirebaseAndAuth() {
-            try {
-                app = initializeApp(firebaseConfig);
-                db = getFirestore(app);
-                auth = getAuth(app);
-
-                onAuthStateChanged(auth, async (user) => {
-                    if (user) {
-                        currentUserId = user.uid;
-                        console.log("Authenticated with Firebase. User ID:", currentUserId);
-                        // Now that we have a user ID, we can update check-in display and set up listeners
-                        setupCheckInFeature();
-                    } else {
-                        // Sign in anonymously if no user is found
-                        if (initialAuthToken) {
-                            await signInWithCustomToken(auth, initialAuthToken);
-                        } else {
-                            await signInAnonymously(auth);
-                        }
-                    }
-                });
-            } catch (error) {
-                console.error("Error initializing Firebase:", error);
-                document.getElementById('check-in-message').textContent = "Error initializing check-in. Please try again later.";
-                document.getElementById('check-in-message').classList.remove('hidden');
+        // --- Particle Animation ---
+        const particleContainer = document.getElementById('particle-container');
+        if (particleContainer) {
+            const particleCount = 50;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                const size = Math.random() * 3 + 1;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.top = `${Math.random() * 100}vh`;
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.animationDelay = `${Math.random() * 20}s`;
+                particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                particleContainer.appendChild(particle);
             }
         }
-
-        // Check-in Counter Logic
-        const checkInCountEl = document.getElementById('checked-in-count');
-        const checkInBtn = document.getElementById('check-in-btn');
-        const checkInMessageEl = document.getElementById('check-in-message');
-
-        async function setupCheckInFeature() {
-            if (!db || !currentUserId) {
-                console.warn("Firestore or User ID not available yet for check-in feature setup.");
-                return;
-            }
-
-            const globalCountRef = doc(db, `artifacts/${appId}/public/data/tibcoin_checkins/global_count`);
-            const userStatusRef = doc(db, `artifacts/${appId}/users/${currentUserId}/tibcoin_checkins/user_status`);
-
-            // Listen for real-time updates to the global count
-            onSnapshot(globalCountRef, (docSnap) => {
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    checkInCountEl.textContent = (data.totalCheckedInUsers || 0).toLocaleString();
-                } else {
-                    // Initialize if document doesn't exist
-                    setDoc(globalCountRef, { totalCheckedInUsers: 0 }, { merge: true })
-                        .catch(e => console.error("Error initializing global count doc:", e));
-                    checkInCountEl.textContent = '0';
-                }
-            }, (error) => {
-                console.error("Error listening to global count:", error);
-                checkInMessageEl.textContent = "Error loading global count.";
-                checkInMessageEl.classList.remove('hidden');
-            });
-
-            // Check user's individual check-in status on load
-            try {
-                const userDocSnap = await getDoc(userStatusRef);
-                if (userDocSnap.exists() && userDocSnap.data().hasCheckedIn) {
-                    checkInBtn.disabled = true;
-                    checkInBtn.textContent = "ALREADY CHECKED IN!";
-                    checkInBtn.classList.add('opacity-50', 'cursor-not-allowed');
-                    checkInMessageEl.textContent = "You've already checked in, degen! Welcome aboard!";
-                    checkInMessageEl.classList.remove('hidden');
-                }
-            } catch (error) {
-                console.error("Error checking user status:", error);
-                checkInMessageEl.textContent = "Error checking your check-in status.";
-                checkInMessageEl.classList.remove('hidden');
-            }
-
-            checkInBtn.addEventListener('click', async () => {
-                if (checkInBtn.disabled) return; // Prevent multiple clicks while processing
-
-                checkInBtn.disabled = true; // Disable immediately to prevent double click
-                checkInBtn.textContent = "CHECKING IN...";
-                checkInBtn.classList.add('opacity-50', 'cursor-not-allowed');
-
-                try {
-                    const currentUserStatus = await getDoc(userStatusRef);
-                    if (currentUserStatus.exists() && currentUserStatus.data().hasCheckedIn) {
-                        checkInMessageEl.textContent = "You've already checked in, degen! Welcome aboard!";
-                        checkInMessageEl.classList.remove('hidden');
-                        console.log("User already checked in (Firestore confirmed).");
-                    } else {
-                        // Increment global count
-                        await updateDoc(globalCountRef, {
-                            totalCheckedInUsers: increment(1)
-                        });
-                        // Mark user as checked in
-                        await setDoc(userStatusRef, { hasCheckedIn: true }, { merge: true });
-
-                        checkInMessageEl.textContent = "Checked in! WAGMI!";
-                        checkInMessageEl.classList.remove('hidden');
-                        setTimeout(() => {
-                            checkInMessageEl.classList.add('hidden');
-                        }, 2000);
-                        console.log("User checked in successfully via Firestore.");
-                    }
-                } catch (error) {
-                    console.error("Error during check-in:", error);
-                    checkInMessageEl.textContent = "Error during check-in. Try again!";
-                    checkInMessageEl.classList.remove('hidden');
-                    // Re-enable button if an error occurred and it wasn't due to already checked in status
-                    // This check is important to avoid re-enabling if the user was already checked in.
-                    const finalUserStatusCheck = await getDoc(userStatusRef);
-                    if (!finalUserStatusCheck.exists() || !finalUserStatusCheck.data().hasCheckedIn) {
-                         checkInBtn.disabled = false;
-                         checkInBtn.textContent = "CHECK IN!";
-                         checkInBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                    }
-                }
-            });
-        }
-
-        // General UI/Chart setup functions (from previous versions, kept as is)
-        const tabs = document.querySelectorAll('.tab-button');
-        const tabContents = document.querySelectorAll('.tab-content');
-
-        function showTab(tabName) {
-            tabs.forEach(tab => {
-                tab.classList.remove('active');
-                if (tab.getAttribute('onclick').includes(tabName)) {
-                    tab.classList.add('active');
-                }
-            });
-            tabContents.forEach(content => {
-                content.classList.add('hidden');
-                if (content.id === `${tabName}-content`) {
-                    content.classList.remove('hidden');
-                }
-            });
-        }
-
-        let powAnimationInterval;
-        const nonceEl = document.querySelector('#pow-animation .nonce');
-        const newBlockEl = document.getElementById('new-block');
-
-        function startPowAnimation() {
-            powAnimationInterval = setInterval(() => {
-                nonceEl.textContent = Math.floor(Math.random() * 100000);
-            }, 50); /* Faster flicker */
-
-            setTimeout(() => {
-                clearInterval(powAnimationInterval);
-                nonceEl.textContent = '42781'; /* A static "found" nonce */
-                newBlockEl.classList.remove('opacity-0');
-            }, 3000);
-        }
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    startPowAnimation();
-                } else {
-                    clearInterval(powAnimationInterval);
-                    newBlockEl.classList.add('opacity-0');
-                }
-            });
-        }, { threshold: 0.5 });
-
-        // Observe the pow-animation section
-        document.addEventListener('DOMContentLoaded', () => {
-            const powAnimationSection = document.getElementById('pow-animation');
-            if (powAnimationSection) {
-                observer.observe(powAnimationSection);
-            }
-        });
-
-
-        const securityChartCtx = document.getElementById('securityChart').getContext('2d');
+        
+        // --- Security Chart ---
         let securityChart;
-
-        const attackerPowerSlider = document.getElementById('attacker-power');
-        const attackerPowerValue = document.getElementById('attacker-power-value');
-
-        function calculateAttackerProbability(q, p, z) {
-            if (q >= p) {
-                return Math.pow(q / p, z);
-            } else {
-                return 0; /* If honest nodes have more power, attacker probability of catching up is effectively 0 */
+        function factorial(n) {
+            if (n < 0) return 1;
+            if (n === 0) return 1;
+            let res = 1;
+            for (let i = n; i > 0; i--) {
+                res *= i;
             }
+            return res;
         }
 
-        function updateChart() {
-            const attackerProb = parseInt(attackerPowerSlider.value) / 100;
-            attackerPowerValue.textContent = `${attackerPowerSlider.value}%`;
-            
-            const q = attackerProb;
-            const p = 1 - q;
-            
-            const labels = [];
-            const data = [];
-
-            for (let z = 0; z <= 20; z++) {
-                labels.push(z);
-                let prob = calculateAttackerProbability(q, p, z);
-                data.push(prob > 1 ? 1 : prob); /* Cap probability at 1 */
+        function calculateAttackerProbability(q, z) {
+            const p = 1.0 - q;
+            if (q >= p) return 1.0;
+            const lambda = z * (q / p);
+            let sum = 1.0;
+            for (let k = 0; k <= z; k++) {
+                const poisson = Math.exp(-lambda) * Math.pow(lambda, k) / factorial(k);
+                sum -= poisson * (1 - Math.pow(q / p, z - k));
             }
+            return sum;
+        }
 
+        function createSecurityChart() {
+            const ctx = document.getElementById('securityChart')?.getContext('2d');
+            if (!ctx) return;
+            securityChart = new Chart(ctx, {
+                type: 'line',
+                data: { labels: [], datasets: [{
+                    label: 'Attacker Success Probability',
+                    data: [],
+                    borderColor: '#FF00FF',
+                    backgroundColor: 'rgba(255, 0, 255, 0.2)',
+                    fill: true,
+                    tension: 0.4
+                }]},
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 1.0, title: { display: true, text: 'Probability of Success', color: '#E0E0E0' }, ticks: { callback: (v) => `${(v*100).toFixed(0)}%`, color: '#E0E0E0' }, grid: { color: 'rgba(255,255,255,0.1)' } },
+                        x: { title: { display: true, text: 'Blocks Honest Chain is Ahead (z)', color: '#E0E0E0' }, ticks: { color: '#E0E0E0' }, grid: { color: 'rgba(255,255,255,0.1)' } }
+                    },
+                    plugins: { legend: { labels: { color: '#E0E0E0' } } }
+                }
+            });
+            updateSecurityChart();
+        }
+
+        function updateSecurityChart() {
+            if (!securityChart) return;
+            const slider = document.getElementById('attacker-power');
+            const q = parseInt(slider.value) / 100;
+            document.getElementById('attacker-power-value').textContent = `${slider.value}%`;
+            const labels = Array.from({length: 15}, (_, i) => i);
+            const data = labels.map(z => calculateAttackerProbability(q, z));
             securityChart.data.labels = labels;
             securityChart.data.datasets[0].data = data;
-            securityChart.data.datasets[0].label = `Attacker Probability (at ${attackerPowerSlider.value}% Power)`;
             securityChart.update();
         }
-        
-        function createChart() {
-            const securityChartCanvas = document.getElementById('securityChart');
-            if (!securityChartCanvas) {
-                console.error("Security chart canvas element not found!");
-                return; /* Exit if element is null */
-            }
-            const securityChartCtx = securityChartCanvas.getContext('2d');
 
-            securityChart = new Chart(securityChartCtx, {
-                type: 'line',
-                data: {
-                    labels: [],
-                    datasets: [{
-                        label: 'Attacker Probability',
-                        data: [],
-                        borderColor: '#FF69B4', /* Hot pink line */
-                        backgroundColor: 'rgba(255, 105, 180, 0.2)', /* Lighter hot pink fill */
-                        fill: true,
-                        tension: 0.4 /* Smoother line */
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 1.0,
-                            title: {
-                                display: true,
-                                text: 'Probability of Success',
-                                color: '#E0FFFF' /* Cyan text */
-                            },
-                            ticks: {
-                                callback: function(value) {
-                                    return (value * 100).toFixed(0) + '%';
-                                },
-                                color: '#E0E0E0'
-                            },
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)' /* Lighter grid for dark background */
-                            }
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Number of Blocks Behind (z)',
-                                color: '#E0FFFF' /* Cyan text */
-                            },
-                            ticks: {
-                                color: '#E0E0E0'
-                            },
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
-                            }
-                        }
-                    },
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed.y !== null) {
-                                        label += (context.parsed.y * 100).toFixed(2) + '%';
-                                    }
-                                    return label;
-                                }
-                            },
-                            titleColor: '#E0E0E0',
-                            bodyColor: '#E0E0E0',
-                            backgroundColor: 'rgba(26, 26, 51, 0.9)', /* Dark tooltip background */
-                            borderColor: '#FF69B4', /* Hot pink border */
-                            borderWidth: 1,
-                        },
-                        legend: {
-                            labels: {
-                                color: '#E0E0E0' /* Legend text color */
-                            }
-                        }
-                    }
-                }
-            });
-            updateChart();
-        }
-
-        attackerPowerSlider.addEventListener('input', updateChart);
-        
-        // Mock Price Chart Logic
-        const priceChartCtx = document.getElementById('priceChart').getContext('2d');
-        let priceChart;
-
+        // --- Price Chart ---
         function createPriceChart() {
-            const priceChartCanvas = document.getElementById('priceChart');
-            if (!priceChartCanvas) {
-                console.error("Price chart canvas element not found!");
-                return; /* Exit if element is null */
-            }
-            const priceChartCtx = priceChartCanvas.getContext('2d');
-
-            const labels = ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7', 'Day 8', 'Day 9', 'Day 10', 'Day 11', 'Day 12', 'Day 13', 'Day 14'];
-            const data = [0.000001, 0.0000015, 0.000003, 0.000008, 0.00002, 0.00005, 0.0001, 0.0002, 0.0005, 0.001, 0.002, 0.005, 0.01, 0.05]; // Exponential growth for meme coin
-
-            priceChart = new Chart(priceChartCtx, {
+            const ctx = document.getElementById('priceChart')?.getContext('2d');
+            if (!ctx) return;
+            new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: labels,
+                    labels: ['Q1', 'Q2', 'Q3', 'Q4', 'Y2Q1', 'Y2Q2', 'Y2Q3', 'Y2Q4'],
                     datasets: [{
-                        label: '$TIB Price (Simulated)',
-                        data: data,
-                        borderColor: '#00FFFF', /* Cyan line */
-                        backgroundColor: 'rgba(0, 255, 255, 0.1)', /* Light cyan fill */
-                        fill: true,
-                        tension: 0.4,
-                        pointRadius: 5,
-                        pointBackgroundColor: '#FF69B4', /* Hot pink points */
-                        pointBorderColor: '#4B0082', /* Purple point border */
-                        pointHoverRadius: 7,
-                        pointHoverBackgroundColor: '#FFD700', /* Gold on hover */
+                        label: '$TIB Simulated Value',
+                        data: [0.00001, 0.00008, 0.0005, 0.004, 0.02, 0.09, 0.3, 1.1],
+                        borderColor: '#00FFFF',
+                        backgroundColor: 'rgba(0, 255, 255, 0.1)',
+                        fill: true, tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    scales: {
+                        y: { type: 'logarithmic', title: { display: true, text: 'Value ($) - Log Scale', color: '#E0E0E0' }, ticks: { color: '#E0E0E0' }, grid: { color: 'rgba(255,255,255,0.1)' } },
+                        x: { title: { display: true, text: 'Time', color: '#E0E0E0' }, ticks: { color: '#E0E0E0' }, grid: { color: 'rgba(255,255,255,0.1)' } }
+                    },
+                    plugins: { legend: { labels: { color: '#E0E0E0' } } }
+                }
+            });
+        }
+
+        // --- Tokenomics Chart ---
+        function createTokenomicsChart() {
+            const ctx = document.getElementById('tokenomicsChart')?.getContext('2d');
+            if (!ctx) return;
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['100% Fair Launch Public Distribution'],
+                    datasets: [{
+                        data: [100],
+                        backgroundColor: ['#6A0DAD'],
+                        borderColor: ['#0D0B1A'],
+                        borderWidth: 2,
+                        hoverOffset: 4
                     }]
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Price ($)',
-                                color: '#E0FFFF'
-                            },
-                            ticks: {
-                                callback: function(value) {
-                                    return '$' + value.toFixed(6);
-                                },
-                                color: '#E0E0E0'
-                            },
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
-                            }
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Time',
-                                color: '#E0FFFF'
-                            },
-                            ticks: {
-                                color: '#E0E0E0'
-                            },
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
-                            }
-                        }
-                    },
+                    cutout: '70%',
                     plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed.y !== null) {
-                                        label += '$' + context.parsed.y.toFixed(7);
-                                    }
-                                    return label;
-                                }
-                            },
-                            titleColor: '#E0E0E0',
-                            bodyColor: '#E0E0E0',
-                            backgroundColor: 'rgba(26, 26, 51, 0.9)',
-                            borderColor: '#00FFFF',
-                            borderWidth: 1,
-                        },
                         legend: {
+                            position: 'bottom',
                             labels: {
-                                color: '#E0E0E0'
+                                color: '#E0E0E0',
+                                font: { size: 14 }
                             }
                         }
                     }
@@ -1132,137 +746,141 @@
             });
         }
 
-
-        // Countdown Timer Logic
-        // Current date is July 24, 2025. 20 days from today is August 13, 2025.
-        const launchDate = new Date('August 13, 2025 00:00:00 GMT+0700').getTime(); 
-        const daysEl = document.getElementById('days');
-        const hoursEl = document.getElementById('hours');
-        const minutesEl = document.getElementById('minutes');
-        const secondsEl = document.getElementById('seconds');
-        const countdownMessageEl = document.getElementById('countdown-message');
-        const countdownTimerEl = document.getElementById('countdown-timer');
-
+        // --- Countdown Timer ---
+        const launchDate = new Date('August 13, 2025 00:00:00 GMT+0700').getTime();
         function updateCountdown() {
             const now = new Date().getTime();
             const distance = launchDate - now;
-
+            const els = {
+                d: document.getElementById('days'), h: document.getElementById('hours'),
+                m: document.getElementById('minutes'), s: document.getElementById('seconds')
+            };
             if (distance < 0) {
                 clearInterval(countdownInterval);
-                countdownTimerEl.classList.add('hidden');
-                countdownMessageEl.classList.remove('hidden');
-                countdownMessageEl.textContent = "It's here! The fair launch is complete! Much wow, very launch!";
+                document.getElementById('countdown-timer').classList.add('hidden');
+                document.getElementById('countdown-message').classList.remove('hidden');
                 return;
             }
+            if (!els.d) return; // Stop if elements are not found
+            els.d.textContent = String(Math.floor(distance / (1000*60*60*24))).padStart(2, '0');
+            els.h.textContent = String(Math.floor((distance % (1000*60*60*24))/(1000*60*60))).padStart(2, '0');
+            els.m.textContent = String(Math.floor((distance % (1000*60*60))/(1000*60))).padStart(2, '0');
+            els.s.textContent = String(Math.floor((distance % (1000*60))/1000)).padStart(2, '0');
+        }
+        const countdownInterval = setInterval(updateCountdown, 1000);
 
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            daysEl.textContent = String(days).padStart(2, '0');
-            hoursEl.textContent = String(hours).padStart(2, '0');
-            minutesEl.textContent = String(minutes).padStart(2, '0');
-            secondsEl.textContent = String(seconds).padStart(2, '0');
+        // --- Profit Calculator ---
+        function setupProfitCalculator() {
+            const btn = document.getElementById('calculate-profit-btn');
+            btn?.addEventListener('click', () => {
+                const investment = parseFloat(document.getElementById('investment-amount').value);
+                const multiplier = parseFloat(document.getElementById('multiplier').value);
+                const output = document.getElementById('profit-output');
+                const resultEl = document.getElementById('calculated-profit');
+                if (isNaN(investment) || isNaN(multiplier) || investment <= 0 || multiplier <= 0) {
+                    resultEl.textContent = "Invalid Input";
+                } else {
+                    const profit = investment * multiplier;
+                    resultEl.textContent = `$${profit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                }
+                output.classList.remove('hidden');
+            });
         }
 
-        const countdownInterval = setInterval(updateCountdown, 1000);
-        updateCountdown(); // Initial call to display immediately
+        // --- FAQ Toggle ---
+        window.toggleFaq = function(element) {
+            const item = element.parentElement;
+            item.classList.toggle('active');
+        }
 
-        // Ape In Profit Calculator Logic
-        const investmentAmountInput = document.getElementById('investment-amount');
-        const multiplierInput = document.getElementById('multiplier');
-        const calculateProfitBtn = document.getElementById('calculate-profit-btn');
-        const profitOutput = document.getElementById('profit-output');
-        const calculatedProfitSpan = document.getElementById('calculated-profit');
-
-        calculateProfitBtn.addEventListener('click', () => {
-            const investment = parseFloat(investmentAmountInput.value);
-            const multiplier = parseFloat(multiplierInput.value);
-
-            if (isNaN(investment) || isNaN(multiplier) || investment <= 0 || multiplier <= 0) {
-                calculatedProfitSpan.textContent = "Invalid input, fren. Try again!";
-                profitOutput.classList.remove('hidden');
-                return;
-            }
-
-            const potentialProfit = investment * multiplier;
-            calculatedProfitSpan.textContent = `$${potentialProfit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-            profitOutput.classList.remove('hidden');
-        });
-
-
-        // Gemini API Integration for Meme Tweet Generator
-        const generateTweetBtn = document.getElementById('generate-tweet-btn');
-        const tweetPromptInput = document.getElementById('tweet-prompt');
-        const generatedTweetOutput = document.getElementById('generated-tweet-output');
-        const loadingSpinner = document.getElementById('loading-spinner');
-        const tweetOnXBtn = document.getElementById('tweet-on-x-btn');
-
-        generateTweetBtn.addEventListener('click', async () => {
-            const promptText = tweetPromptInput.value.trim();
-            if (!promptText) {
-                generatedTweetOutput.textContent = "Please enter a prompt for your meme tweet!";
-                generatedTweetOutput.classList.remove('hidden');
-                tweetOnXBtn.classList.add('hidden'); // Hide tweet button if no prompt
-                return;
-            }
-
-            loadingSpinner.classList.remove('hidden');
-            generateTweetBtn.disabled = true;
-            generatedTweetOutput.classList.add('hidden');
-            tweetOnXBtn.classList.add('hidden'); // Hide tweet button while generating
-
-            try {
-                let chatHistory = [];
-                chatHistory.push({ role: "user", parts: [{ text: `Generate a short, funny, meme-style tweet about TibCoin ($TIB) or blockchain, based on the following idea: "${promptText}". Always include @tibcoin_ and $TIB. Include meme coin jargon like 'to the moon', 'hodl', 'ape in', 'wen lambo', 'diamond hands', 'paper hands', 'degens', 'fud', 'bullish', 'bearish', 'rekt', 'wagmi', 'ngmi', 'much wow', 'very crypto'. Also include relevant emojis. Keep it under 280 characters.` }] });
-                const payload = { contents: chatHistory };
-                const apiKey = ""; // Canvas will provide this at runtime
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                const result = await response.json();
-                console.log('Gemini API response:', result); // Log the full response for debugging
-
-                if (result.candidates && result.candidates.length > 0 &&
-                    result.candidates[0].content && result.candidates[0].content.parts &&
-                    result.candidates[0].content.parts.length > 0) {
-                    const text = result.candidates[0].content.parts[0].text;
-                    generatedTweetOutput.textContent = text;
-                    generatedTweetOutput.classList.remove('hidden');
-                    tweetOnXBtn.classList.remove('hidden'); // Show tweet button
-                    tweetOnXBtn.onclick = () => {
-                        const tweetText = encodeURIComponent(text);
-                        window.open(`https://twitter.com/intent/tweet?text=${tweetText}`, '_blank');
-                    };
-                } else {
-                    generatedTweetOutput.textContent = "Oops! My brain is out of memes. Try a different prompt, fren!";
-                    generatedTweetOutput.classList.remove('hidden');
+        // --- Roadmap Toggle ---
+        window.toggleRoadmap = function(element) {
+            document.querySelectorAll('.roadmap-item').forEach(el => {
+                if (el !== element) {
+                    el.classList.remove('active');
                 }
-            } catch (error) {
-                console.error("Error generating tweet:", error);
-                generatedTweetOutput.textContent = "Network error or API issue. Can't generate tweet right now. FUD detected!";
-                generatedTweetOutput.classList.remove('hidden');
-            } finally {
-                loadingSpinner.classList.add('hidden');
-                generateTweetBtn.disabled = false;
+            });
+            element.classList.toggle('active');
+        }
+        
+        // --- Interactive Globe ---
+        function initGlobe() {
+            const container = document.getElementById('globe-container');
+            if (!container) return;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('globe-canvas'), alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+
+            const globeRadius = 5;
+            const globeGeometry = new THREE.SphereGeometry(globeRadius, 32, 32);
+            const globeMaterial = new THREE.MeshBasicMaterial({ color: 0x6A0DAD, wireframe: true });
+            const globe = new THREE.Mesh(globeGeometry, globeMaterial);
+            scene.add(globe);
+            
+            camera.position.z = 15;
+
+            // Mouse interaction
+            let isMouseDown = false;
+            let previousMousePosition = { x: 0, y: 0 };
+            
+            container.addEventListener('mousedown', (e) => { isMouseDown = true; });
+            container.addEventListener('mouseup', (e) => { isMouseDown = false; });
+            container.addEventListener('mousemove', (e) => {
+                if (!isMouseDown) return;
+                const deltaX = e.clientX - previousMousePosition.x;
+                const deltaY = e.clientY - previousMousePosition.y;
+                globe.rotation.y += deltaX * 0.005;
+                globe.rotation.x += deltaY * 0.005;
+                previousMousePosition = { x: e.clientX, y: e.clientY };
+            });
+            container.addEventListener('mouseleave', () => { isMouseDown = false; });
+             container.addEventListener('touchstart', (e) => {
+                isMouseDown = true;
+                previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            }, { passive: true });
+            container.addEventListener('touchend', () => { isMouseDown = false; });
+            container.addEventListener('touchmove', (e) => {
+                if (!isMouseDown) return;
+                const deltaX = e.touches[0].clientX - previousMousePosition.x;
+                const deltaY = e.touches[0].clientY - previousMousePosition.y;
+                globe.rotation.y += deltaX * 0.005;
+                globe.rotation.x += deltaY * 0.005;
+                previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            }, { passive: true });
+
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                if (!isMouseDown) {
+                    globe.rotation.y += 0.001;
+                }
+                renderer.render(scene, camera);
             }
-        });
+            animate();
 
-        // This is the main window.onload function that orchestrates everything
-        window.onload = async () => {
-            await initializeFirebaseAndAuth(); // Initialize Firebase first
-            createChart();
-            createPriceChart(); // Initialize the new price chart
-            showTab('transactions'); /* Initialize with transactions tab active */
-            // The setupCheckInFeature is now called after authentication is ready within firebaseInit
+            // Handle resize
+            window.addEventListener('resize', () => {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        }
+
+
+        // --- Initial Load ---
+        window.onload = () => {
+            createSecurityChart();
+            createPriceChart();
+            createTokenomicsChart();
+            updateCountdown();
+            setupProfitCalculator();
+            initGlobe();
+
+            document.getElementById('attacker-power')?.addEventListener('input', updateSecurityChart);
         };
-
     </script>
 </body>
 </html>
